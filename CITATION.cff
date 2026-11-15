@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use this biophysical model, DTI-ALPS solver, or multi-cohort registry in your research, please cite it as below."
+authors:
+  - family-names: "Celebrano"
+    given-names: "Luca"
+    affiliation: "Department of Clinical Medicine and Surgery, School of Medicine and Surgery, Università degli Studi di Napoli Federico II, Naples, Italy"
+    email: "l.celebrano@studenti.unina.it"
+    orcid: "https://orcid.org/0009-0007-0931-3555"
+title: "Neuro-Glymphatic Tau Dynamics (NGTD): A Multiscale Reaction-Diffusion and Perivascular Transport Model of Tau Spreading in Alzheimer's Disease"
+version: 1.0.0
+date-released: 2026-11-15
+url: "https://github.com/Lukecele/tau-glymphatic-continuum"
+repository-code: "https://github.com/Lukecele/tau-glymphatic-continuum"
+license: "CC-BY-4.0"
+keywords:
+  - "alzheimers disease"
+  - "tauopathy"
+  - "glymphatic system"
+  - "reaction-diffusion"
+  - "DTI-ALPS"
+  - "perivascular transport"
+  - "neuroinflammation"
+  - "microglia"
+  - "APOE epsilon4"
+  - "TREM2"

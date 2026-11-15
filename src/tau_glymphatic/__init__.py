@@ -28,9 +28,15 @@ from tau_glymphatic.solver import (
     simulate_radial_pvs_profile,
 )
 from tau_glymphatic.audit import run_full_biophysical_audit
+from tau_glymphatic.cohorts import (
+    ClinicalCohortMetadata,
+    AUDITED_COHORTS,
+    CohortCompatibilityAuditor,
+)
 
 __version__ = "1.0.0"
 __author__ = "Luca Celebrano"
+__license__ = "CC-BY-4.0"
 
 __all__ = [
     "PerivascularGeometry",
@@ -50,4 +56,7 @@ __all__ = [
     "calculate_net_clearance_rate",
     "simulate_radial_pvs_profile",
     "run_full_biophysical_audit",
+    "ClinicalCohortMetadata",
+    "AUDITED_COHORTS",
+    "CohortCompatibilityAuditor",
 ]

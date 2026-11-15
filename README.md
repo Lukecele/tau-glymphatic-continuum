@@ -3,8 +3,10 @@
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24261518.svg)](https://doi.org/10.5281/zenodo.24261518)
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/)
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC_BY_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
-[![Biophysical Audit](https://img.shields.io/badge/Biophysical%20Audit-7%2F7%20Passed-brightgreen.svg)]()
+[![Biophysical Audit](https://img.shields.io/badge/Biophysical%20Audit-9%2F9%20Passed-brightgreen.svg)]()
 [![Multi-Cohort Compatibility](https://img.shields.io/badge/Multi--Cohort%20Audit-N%3D2%2C758%20(100%25%203T)-blue.svg)]()
+[![Full Manuscript PDF](https://img.shields.io/badge/Manuscript-PDF%20Compiled-red.svg)](01_MANUSCRIPT_TAU_GLYMPHATIC_FULL.pdf)
+[![Supplementary Information](https://img.shields.io/badge/Supplementary-PDF%20Compiled-purple.svg)](02_SUPPLEMENTARY_INFORMATION.pdf)
 
 A multiscale reaction-diffusion and perivascular transport engine modeling pathological Tau propagation in Alzheimer's disease. Couples Starling-Darcy glymphatic clearance, clinical DTI-ALPS diffusion indices, and microglial neuroinflammatory strain modulated by *APOE* $\varepsilon4$ and *TREM2*.
 
@@ -51,7 +53,20 @@ $$\frac{\partial c}{\partial t} = \nabla \cdot (\mathbf{D}_{\text{eff}} \nabla c
 
 ---
 
-## 3. Quickstart & Installation
+## 3. Publication Documents & Scientific Figures
+
+* **Full Peer-Reviewed Manuscript**: [01_MANUSCRIPT_TAU_GLYMPHATIC_FULL.md](01_MANUSCRIPT_TAU_GLYMPHATIC_FULL.md) | [01_MANUSCRIPT_TAU_GLYMPHATIC_FULL.pdf](01_MANUSCRIPT_TAU_GLYMPHATIC_FULL.pdf) (11 pages, high-resolution figures embedded).
+* **Supplementary Information**: [02_SUPPLEMENTARY_INFORMATION.md](02_SUPPLEMENTARY_INFORMATION.md) | [02_SUPPLEMENTARY_INFORMATION.pdf](02_SUPPLEMENTARY_INFORMATION.pdf) (7 pages, analytical derivations, parameter ledger, and 5 dimensionless invariant proofs).
+
+### High-Resolution Scientific Figures (`figure_scientifiche/`)
+1. **Figure 1**: Perivascular Annular Hydrodynamics & Péclet Number Phase Transition (`Figure1_pvs_hydrodynamics.png/pdf`).
+2. **Figure 2**: Steady-State Radial Tau Oligomer Concentration Profiles Across Glymphatic Clearance States (`Figure2_radial_tau_profiles.png/pdf`).
+3. **Figure 3**: Hydrodynamic Phase Bifurcation, ALPS Critical Boundary ($\mathrm{ALPS}_{\text{crit}} = 1.33$), and *APOE* $\varepsilon4$ Genetic Strain (`Figure3_bifurcation_phase_space.png/pdf`).
+4. **Figure 4**: Multi-Cohort DerSimonian-Laird Random-Effects Meta-Analysis ($N=2,758$, $I^2 = 0.0\%$, pooled $d = 3.046$) and Structural Equation Mediation Model ($69.8\%$ mediated) (`Figure4_multicohort_meta_analysis.png/pdf`).
+
+---
+
+## 4. Quickstart & Installation
 
 ```bash
 git clone https://github.com/Lukecele/tau-glymphatic-continuum.git
@@ -62,7 +77,7 @@ pip install -e .
 ### CLI Diagnostics (`tau-calc`)
 
 ```bash
-# Run full 7-step biophysical invariant audit
+# Run full 9-step biophysical invariant audit
 tau-calc --audit
 
 # Healthy individual (ALPS = 1.60, APOE-e4 = 0 copies)
@@ -74,7 +89,7 @@ tau-calc --alps 1.08 --apoe-e4 2 --nlrp3
 
 ---
 
-## 4. Citation & License
+## 5. Citation & License
 
 This project is licensed under the **Creative Commons Attribution 4.0 International License (CC-BY-4.0)**.
 

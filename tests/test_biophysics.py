@@ -83,5 +83,5 @@ def test_radial_pvs_profile_simulation():
 def test_full_biophysical_audit_passes():
     audit = run_full_biophysical_audit()
     assert audit["status"] == "PASSED"
-    assert audit["passed_checks"] == 7
-    assert audit["total_checks"] == 7
+    assert audit["passed_checks"] == 9
+    assert audit["total_checks"] == 9

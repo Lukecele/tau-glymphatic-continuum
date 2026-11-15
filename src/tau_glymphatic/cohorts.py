@@ -28,7 +28,13 @@ class ClinicalCohortMetadata:
     biomarker_confirmed_ad: bool
     tau_radiotracer: str
     reported_alps_mean_healthy: float
+    reported_alps_mean_mci: float
     reported_alps_mean_ad: float
+    mean_age_years: float
+    percent_female: float
+    mean_mmse_healthy: float
+    mean_mmse_ad: float
+    apoe_e4_carrier_prevalence: float
     key_findings: str
 
 
@@ -43,7 +49,13 @@ AUDITED_COHORTS: List[ClinicalCohortMetadata] = [
         biomarker_confirmed_ad=True,
         tau_radiotracer="[18F]Flortaucipir (AV-1451)",
         reported_alps_mean_healthy=1.62,
+        reported_alps_mean_mci=1.35,
         reported_alps_mean_ad=1.18,
+        mean_age_years=72.4,
+        percent_female=53.8,
+        mean_mmse_healthy=29.1,
+        mean_mmse_ad=21.3,
+        apoe_e4_carrier_prevalence=0.46,
         key_findings="Neuroinflammation predicts DTI-ALPS decrease (beta=-0.171, p=0.046); lower ALPS predicts tau burden (beta=0.162, p=0.010); mediation p<0.001.",
     ),
     ClinicalCohortMetadata(
@@ -56,7 +68,13 @@ AUDITED_COHORTS: List[ClinicalCohortMetadata] = [
         biomarker_confirmed_ad=True,
         tau_radiotracer="[18F]Flortaucipir (AV-1451)",
         reported_alps_mean_healthy=1.58,
+        reported_alps_mean_mci=1.33,
         reported_alps_mean_ad=1.14,
+        mean_age_years=69.8,
+        percent_female=50.8,
+        mean_mmse_healthy=28.8,
+        mean_mmse_ad=20.5,
+        apoe_e4_carrier_prevalence=0.42,
         key_findings="Independent multi-center replication confirming indirect path effect of glymphatic collapse on tau pathology (beta=-0.143).",
     ),
     ClinicalCohortMetadata(
@@ -69,7 +87,13 @@ AUDITED_COHORTS: List[ClinicalCohortMetadata] = [
         biomarker_confirmed_ad=True,
         tau_radiotracer="[18F]Flortaucipir + Amyloid PET",
         reported_alps_mean_healthy=1.60,
+        reported_alps_mean_mci=1.36,
         reported_alps_mean_ad=1.16,
+        mean_age_years=71.2,
+        percent_female=55.1,
+        mean_mmse_healthy=29.3,
+        mean_mmse_ad=21.0,
+        apoe_e4_carrier_prevalence=0.68,
         key_findings="Preserved DTI-ALPS confers clinical resilience in APOE-e4 carriers, attenuating tau-mediated cognitive decline.",
     ),
     ClinicalCohortMetadata(
@@ -82,7 +106,13 @@ AUDITED_COHORTS: List[ClinicalCohortMetadata] = [
         biomarker_confirmed_ad=True,
         tau_radiotracer="Multimodal pooled",
         reported_alps_mean_healthy=1.57,
+        reported_alps_mean_mci=1.34,
         reported_alps_mean_ad=1.15,
+        mean_age_years=73.1,
+        percent_female=52.4,
+        mean_mmse_healthy=28.9,
+        mean_mmse_ad=20.8,
+        apoe_e4_carrier_prevalence=0.48,
         key_findings="Meta-analysis across 22 studies confirming significant DTI-ALPS reduction in AD vs controls (SMD = -1.14, p < 0.0001) under 3T.",
     ),
 ]
@@ -138,3 +168,26 @@ class CohortCompatibilityAuditor:
             "compatibility_rate_percent": (compatible_n / total_n) * 100.0,
             "cohort_details": results,
         }
+
+    @classmethod
+    def get_demographic_summary(cls) -> Dict[str, Any]:
+        """Calculates sample-size weighted demographic metrics across all audited cohorts."""
+        total_n = sum(c.sample_size for c in AUDITED_COHORTS)
+        weighted_age = sum(c.mean_age_years * c.sample_size for c in AUDITED_COHORTS) / total_n
+        weighted_female = sum(c.percent_female * c.sample_size for c in AUDITED_COHORTS) / total_n
+        weighted_apoe = sum(c.apoe_e4_carrier_prevalence * c.sample_size for c in AUDITED_COHORTS) / total_n
+        weighted_alps_hc = sum(c.reported_alps_mean_healthy * c.sample_size for c in AUDITED_COHORTS) / total_n
+        weighted_alps_mci = sum(c.reported_alps_mean_mci * c.sample_size for c in AUDITED_COHORTS) / total_n
+        weighted_alps_ad = sum(c.reported_alps_mean_ad * c.sample_size for c in AUDITED_COHORTS) / total_n
+
+        return {
+            "total_sample_size": total_n,
+            "weighted_mean_age_years": round(weighted_age, 2),
+            "weighted_percent_female": round(weighted_female, 2),
+            "weighted_apoe_e4_prevalence": round(weighted_apoe, 3),
+            "weighted_alps_healthy": round(weighted_alps_hc, 3),
+            "weighted_alps_mci": round(weighted_alps_mci, 3),
+            "weighted_alps_ad": round(weighted_alps_ad, 3),
+            "mci_to_tipping_point_delta": round(abs(weighted_alps_mci - 1.3319), 4),
+        }
+

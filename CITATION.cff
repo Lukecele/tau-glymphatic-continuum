@@ -8,6 +8,7 @@ authors:
     orcid: "https://orcid.org/0009-0007-0931-3555"
 title: "Neuro-Glymphatic Tau Dynamics (NGTD): A Multiscale Reaction-Diffusion and Perivascular Transport Model of Tau Spreading in Alzheimer's Disease"
 version: 1.0.0
+doi: "10.5281/zenodo.24261518"
 date-released: 2026-11-15
 url: "https://github.com/Lukecele/tau-glymphatic-continuum"
 repository-code: "https://github.com/Lukecele/tau-glymphatic-continuum"

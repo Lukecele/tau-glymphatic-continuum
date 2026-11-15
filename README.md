@@ -1,5 +1,6 @@
 # Neuro-Glymphatic Tau Dynamics (NGTD)
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24261518.svg)](https://doi.org/10.5281/zenodo.24261518)
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/)
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC_BY_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
 [![Biophysical Audit](https://img.shields.io/badge/Biophysical%20Audit-7%2F7%20Passed-brightgreen.svg)]()
@@ -84,7 +85,8 @@ To cite this work in research or computational pipelines, refer to `CITATION.cff
   author = {Celebrano, Luca},
   title = {{Neuro-Glymphatic Tau Dynamics (NGTD): A Multiscale Reaction-Diffusion and Perivascular Transport Model of Tau Spreading in Alzheimer's Disease}},
   year = {2026},
-  url = {https://github.com/Lukecele/tau-glymphatic-continuum},
+  doi = {10.5281/zenodo.24261518},
+  url = {https://doi.org/10.5281/zenodo.24261518},
   license = {CC-BY-4.0}
 }
 ```

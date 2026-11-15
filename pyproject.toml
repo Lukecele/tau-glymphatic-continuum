@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tau-glymphatic-continuum"
+version = "1.0.0"
+description = "Multiscale Biophysical Reaction-Diffusion and Perivascular Glymphatic Clearance Engine for Tauopathies"
+readme = "README.md"
+authors = [
+  { name = "Luca Celebrano", email = "l.celebrano@studenti.unina.it" }
+]
+license = { text = "MIT" }
+requires-python = ">=3.9"
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Science/Research",
+  "Topic :: Scientific/Engineering :: Bio-Informatics",
+  "Topic :: Scientific/Engineering :: Medical Science Apps.",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+]
+keywords = [
+  "alzheimers-disease",
+  "tauopathy",
+  "glymphatic-system",
+  "reaction-diffusion",
+  "dti-alps",
+  "biophysics",
+  "neuroinflammation",
+  "microglia",
+  "apoe4"
+]
+
+[project.scripts]
+tau-calc = "tau_glymphatic.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

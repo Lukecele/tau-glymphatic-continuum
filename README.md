@@ -1,6 +1,8 @@
 # Neuro-Glymphatic Tau Dynamics (NGTD)
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24261518.svg)](https://doi.org/10.5281/zenodo.24261518)
+[![bioRxiv](https://img.shields.io/badge/bioRxiv-MS%20ID%3A%20766809-blue.svg)](https://submit.biorxiv.org)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Lukecele/tau-glymphatic-continuum/blob/main/demo_interactive_ngtd.ipynb)
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/)
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC_BY_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
 [![Biophysical Audit](https://img.shields.io/badge/Biophysical%20Audit-9%2F9%20Passed-brightgreen.svg)]()

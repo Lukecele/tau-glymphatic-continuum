@@ -1,0 +1,22 @@
+name: Keep Streamlit App Alive
+
+on:
+  schedule:
+    # Runs every 8 hours (00:00, 08:00, 16:00 UTC) to prevent Streamlit Community Cloud sleep
+    - cron: '0 */8 * * *'
+  workflow_dispatch: # Allows manual trigger from GitHub UI
+
+jobs:
+  ping-streamlit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Streamlit App
+        run: |
+          echo "Pinging Streamlit App to keep it awake..."
+          RESPONSE=$(curl -s -L -o /dev/null -w "%{http_code}" -A "Mozilla/5.0 (GitHubActions-KeepAlive/1.0)" https://tau-glymphatic-continuum-10.streamlit.app/)
+          echo "HTTP Response Status: $RESPONSE"
+          if [ "$RESPONSE" -eq 200 ] || [ "$RESPONSE" -eq 302 ] || [ "$RESPONSE" -eq 304 ]; then
+            echo "Streamlit App is active and responsive (HTTP $RESPONSE)."
+          else
+            echo "Warning: Received HTTP $RESPONSE. Ping completed."
+          fi

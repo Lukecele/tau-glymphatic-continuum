@@ -102,80 +102,89 @@ st.markdown(
 # Sidebar: Patient Biomarkers
 st.sidebar.header("🔬 Patient Clinical Profile")
 
-# Presets
+# Initialize session state for reactive inputs
+if "alps_val" not in st.session_state:
+    st.session_state.alps_val = 1.45
+if "sleep_val" not in st.session_state:
+    st.session_state.sleep_val = 7.5
+if "apoe_val" not in st.session_state:
+    st.session_state.apoe_val = 0
+if "trem2_val" not in st.session_state:
+    st.session_state.trem2_val = False
+if "nlrp3_val" not in st.session_state:
+    st.session_state.nlrp3_val = False
+
+def on_preset_change():
+    sel = st.session_state.preset_select
+    if sel == "Healthy Young Adult":
+        st.session_state.alps_val = 1.75
+        st.session_state.sleep_val = 8.0
+        st.session_state.apoe_val = 0
+        st.session_state.trem2_val = False
+        st.session_state.nlrp3_val = False
+    elif sel == "Healthy Elderly (Control)":
+        st.session_state.alps_val = 1.55
+        st.session_state.sleep_val = 7.0
+        st.session_state.apoe_val = 0
+        st.session_state.trem2_val = False
+        st.session_state.nlrp3_val = False
+    elif sel == "Prodromal MCI":
+        st.session_state.alps_val = 1.28
+        st.session_state.sleep_val = 6.0
+        st.session_state.apoe_val = 1
+        st.session_state.trem2_val = False
+        st.session_state.nlrp3_val = True
+    elif sel == "Clinical Alzheimer's Disease":
+        st.session_state.alps_val = 1.12
+        st.session_state.sleep_val = 5.0
+        st.session_state.apoe_val = 2
+        st.session_state.trem2_val = True
+        st.session_state.nlrp3_val = True
+
 preset = st.sidebar.selectbox(
     "Clinical Cohort Preset:",
     ["Custom Parameters", "Healthy Young Adult", "Healthy Elderly (Control)", "Prodromal MCI", "Clinical Alzheimer's Disease"],
+    key="preset_select",
+    on_change=on_preset_change,
 )
-
-if preset == "Healthy Young Adult":
-    default_alps = 1.75
-    default_apoe = 0
-    default_sleep = 8.0
-    default_trem2 = False
-    default_nlrp3 = False
-elif preset == "Healthy Elderly (Control)":
-    default_alps = 1.55
-    default_apoe = 0
-    default_sleep = 7.0
-    default_trem2 = False
-    default_nlrp3 = False
-elif preset == "Prodromal MCI":
-    default_alps = 1.34
-    default_apoe = 1
-    default_sleep = 6.0
-    default_trem2 = False
-    default_nlrp3 = True
-elif preset == "Clinical Alzheimer's Disease":
-    default_alps = 1.15
-    default_apoe = 2
-    default_sleep = 5.0
-    default_trem2 = True
-    default_nlrp3 = True
-else:
-    default_alps = 1.45
-    default_apoe = 0
-    default_sleep = 7.5
-    default_trem2 = False
-    default_nlrp3 = False
 
 st.sidebar.subheader("1. Diffusion Tensor Imaging (DTI)")
 alps_index = st.sidebar.slider(
     "DTI-ALPS Index (Along Perivascular Space):",
     min_value=0.80,
     max_value=2.00,
-    value=float(default_alps),
     step=0.01,
-    help="Ratio of diffusivity along projection/association fibers at the level of the lateral ventricle body. Healthy > 1.45; AD < 1.25.",
+    key="alps_val",
+    help="Diffusivity ratio along projection/association fibers. Threshold ALPS_crit = 1.3319; Healthy > 1.45; AD < 1.25.",
 )
 
 sleep_hours = st.sidebar.slider(
     "Slow-Wave Sleep Duration (hours/night):",
     min_value=3.0,
     max_value=10.0,
-    value=float(default_sleep),
     step=0.5,
-    help="Perivascular interstitial fluid (ISF) bulk flow accelerates dramatically during slow-wave N3 NREM sleep.",
+    key="sleep_val",
+    help="Perivascular interstitial fluid (ISF) convective flux accelerates dramatically during slow-wave N3 NREM sleep.",
 )
 
 st.sidebar.subheader("2. Genetic & Inflammatory Modifiers")
 apoe_e4_count = st.sidebar.radio(
     "APOE-ε4 Allele Burden:",
     options=[0, 1, 2],
-    index=int(default_apoe),
     format_func=lambda x: f"{x} Allele(s)" + (" (E3/E3 neutral)" if x == 0 else " (Heterozygous E3/E4)" if x == 1 else " (Homozygous E4/E4)"),
+    key="apoe_val",
 )
 
 trem2_r47h = st.sidebar.checkbox(
     "TREM2 R47H Loss-of-Function Variant",
-    value=default_trem2,
+    key="trem2_val",
     help="Impairs microglial phagocytic clearance of oligomeric tau seeds.",
 )
 
 nlrp3_activated = st.sidebar.checkbox(
     "NLRP3 Inflammasome Hyperactivation (Neuroinflammation)",
-    value=default_nlrp3,
-    help="Elevated systemic/central neuroinflammation suppresses baseline microglial degradation efficiency.",
+    key="nlrp3_val",
+    help="Elevated neuroinflammation triggers exosomal seed release and suppresses degradation.",
 )
 
 # Core Computations
@@ -194,6 +203,7 @@ rates = calculate_net_clearance_rate(
     apoe_e4_alleles=apoe_e4_count,
     trem2_r47h=trem2_r47h,
     nlrp3_activated=nlrp3_activated,
+    sleep_fraction=sleep_fraction,
 )
 
 gamma_eff_per_year = rates["effective_growth_rate"] * (365.25 * 86400)
@@ -206,7 +216,7 @@ with col1:
     st.metric(
         label="DTI-ALPS Index",
         value=f"{alps_index:.2f}",
-        delta=f"{alps_index - alps_crit:+.2f} vs ALPS_crit" if alps_index != alps_crit else "At critical point",
+        delta=f"{alps_index - alps_crit:+.2f} vs ALPS_crit" if alps_index != alps_crit else "At critical bifurcation",
         delta_color="normal" if not is_pathologic else "inverse",
     )
 
@@ -221,7 +231,7 @@ with col3:
     st.metric(
         label="Annular Péclet Number (Pe)",
         value=f"{peclet_peak:.3f}",
-        delta="Convective regime (Pe > 1)" if peclet_peak >= 1.0 else "Diffusive stasis (Pe < 1)",
+        delta="Convective Washout (Pe > 1)" if peclet_peak >= 1.0 else "Diffusive Stasis (Pe < 1)",
         delta_color="normal" if peclet_peak >= 1.0 else "inverse",
     )
 
@@ -229,7 +239,7 @@ with col4:
     st.metric(
         label="Net Tau Expansion Rate",
         value=f"{gamma_eff_per_year:+.2f} yr⁻¹",
-        delta="Clearance Dominant" if not is_pathologic else "Seeding Accumulation",
+        delta="Clearance Dominant" if not is_pathologic else "Pathological Accumulation",
         delta_color="normal" if not is_pathologic else "inverse",
     )
 
@@ -239,9 +249,9 @@ if not is_pathologic:
         f"""
         <div class="card-safe">
             <strong>🟢 CLINICAL CLEARANCE STABILITY: SAFE CONVECTIVE REGIME</strong><br>
-            Patient ALPS index (<b>{alps_index:.2f}</b>) exceeds the critical bifurcation threshold (<b>{alps_crit:.4f}</b>). 
-            Bulk perivascular convective flux (effective velocity <b>{v_eff_nm_s:.1f} nm/s</b>) successfully clears monomeric and oligomeric tau species before 
-            surface-catalyzed secondary nucleation takes over.
+            Patient ALPS index (<b>{alps_index:.2f}</b>) provides sufficient perivascular flux (effective velocity <b>{v_eff_nm_s:.1f} nm/s</b>) 
+            to continuously clear monomeric and oligomeric tau species (Net growth: <b>{gamma_eff_per_year:+.2f} yr⁻¹</b>). 
+            Protective slow-wave convective drainage suppresses secondary autocatalytic nucleation.
         </div>
         """,
         unsafe_allow_html=True,
@@ -251,9 +261,9 @@ else:
         f"""
         <div class="card-danger">
             <strong>🔴 HYDRODYNAMIC CLEARANCE COLLAPSE: PATHOLOGICAL SEEDING REGIME</strong><br>
-            Patient ALPS index (<b>{alps_index:.2f}</b>) has breached the critical threshold (<b>{alps_crit:.4f}</b>).
-            Hydrodynamic convective failure causes interstitial solute stagnation. The rate of Knowles-Vendruscolo autocatalytic tau nucleation 
-            exceeds total clearance by <b>{abs(gamma_eff_per_year):.2f} yr⁻¹</b>, predicting exponential neocortical Braak stage propagation.
+            Patient ALPS index (<b>{alps_index:.2f}</b>) is in hydrodynamic failure (effective velocity <b>{v_eff_nm_s:.1f} nm/s</b>).
+            Convective clearance has collapsed below autocatalytic secondary nucleation (Net expansion: <b>{gamma_eff_per_year:+.2f} yr⁻¹</b>).
+            Perivascular solute stagnation accelerates neurofibrillary tangle propagation across neocortical networks.
         </div>
         """,
         unsafe_allow_html=True,
@@ -269,51 +279,60 @@ tab1, tab2, tab3, tab4 = st.tabs([
 
 with tab1:
     st.subheader("Steady-State Radial Tau Concentration: Perivascular Annulus to Neuropil")
-    st.caption("Coupled solution of Stokes-Brinkman advection and Fisher-KPP reaction-diffusion with microglial inflammatory strain.")
+    st.caption("Real-time solution of perivascular advection-diffusion coupled to boundary sink drainage.")
 
     profile_data = simulate_radial_pvs_profile(
         alps_index=alps_index,
         apoe_e4_alleles=apoe_e4_count,
         trem2_r47h=trem2_r47h,
         nlrp3_activated=nlrp3_activated,
+        sleep_fraction=sleep_fraction,
         num_grid_points=80,
     )
 
     r_um = np.array(profile_data["r_points_um"])
     c_profile = np.array(profile_data["c_profile"])
 
-    # Comparison baseline (Healthy young adult ALPS = 1.70, no risk alleles)
-    healthy_data = simulate_radial_pvs_profile(alps_index=1.70, apoe_e4_alleles=0, num_grid_points=80)
+    # Reference baselines
+    healthy_data = simulate_radial_pvs_profile(alps_index=1.70, apoe_e4_alleles=0, sleep_fraction=8.0/24.0, num_grid_points=80)
     c_healthy = np.array(healthy_data["c_profile"])
 
-    # Severe AD baseline (ALPS = 1.10, APOE e4/e4)
-    ad_data = simulate_radial_pvs_profile(alps_index=1.10, apoe_e4_alleles=2, trem2_r47h=True, nlrp3_activated=True, num_grid_points=80)
+    ad_data = simulate_radial_pvs_profile(alps_index=1.10, apoe_e4_alleles=2, trem2_r47h=True, nlrp3_activated=True, sleep_fraction=5.0/24.0, num_grid_points=80)
     c_ad = np.array(ad_data["c_profile"])
 
     fig, ax = plt.subplots(figsize=(10, 4.5), dpi=150)
-    ax.plot(r_um, c_healthy, color="#10B981", linestyle="--", linewidth=1.8, label="Healthy Control Reference (ALPS 1.70, E3/E3)")
-    ax.plot(r_um, c_ad, color="#EF4444", linestyle=":", linewidth=1.8, label="Severe AD Baseline (ALPS 1.10, E4/E4)")
-    ax.plot(r_um, c_profile, color="#1E3A8A", linewidth=2.8, label=f"Current Patient Simulation (ALPS {alps_index:.2f}, {apoe_e4_count} E4)")
+    ax.plot(r_um, c_healthy, color="#10B981", linestyle="--", linewidth=1.8, label="Healthy Reference (ALPS 1.70, E3/E3, 8h Sleep)")
+    ax.plot(r_um, c_ad, color="#EF4444", linestyle=":", linewidth=1.8, label="Severe AD Reference (ALPS 1.10, E4/E4, 5h Sleep)")
+    
+    # Active patient curve with dynamic styling
+    patient_color = "#DC2626" if is_pathologic else "#1E3A8A"
+    ax.plot(r_um, c_profile, color=patient_color, linewidth=2.8, label=f"Current Patient (ALPS {alps_index:.2f}, {apoe_e4_count} E4, {sleep_hours:.1f}h Sleep)")
+    ax.scatter([r_um[0]], [c_profile[0]], color=patient_color, s=80, zorder=6)
 
-    ax.axvspan(r_um[0], r_um[0] + DEFAULT_GEOMETRY.pvs_width * 1e6, color="#E0F2FE", alpha=0.4, label="Perivascular Space (PVS)")
-    ax.axvspan(r_um[0] + DEFAULT_GEOMETRY.pvs_width * 1e6, r_um[-1], color="#F3F4F6", alpha=0.4, label="Brain Parenchyma (Neuropil)")
+    # Shaded anatomic zones
+    pvs_outer_um = r_um[0] + DEFAULT_GEOMETRY.pvs_width * 1e6
+    ax.axvspan(r_um[0], pvs_outer_um, color="#E0F2FE", alpha=0.45, label="Perivascular Space (PVS Annulus)")
+    ax.axvspan(pvs_outer_um, r_um[-1], color="#F3F4F6", alpha=0.35, label="Brain Parenchyma (Neuropil)")
 
     ax.set_xlabel("Radial Distance from Vessel Center r (μm)", fontsize=11, fontweight="bold")
     ax.set_ylabel("Normalized Soluble Tau Concentration C(r) / C_max", fontsize=11, fontweight="bold")
-    ax.set_ylim(-0.05, 1.05)
+    ax.set_ylim(-0.02, 1.05)
     ax.grid(True, linestyle="--", alpha=0.5)
     ax.legend(loc="lower right", frameon=True, fontsize=9)
     plt.tight_layout()
     st.pyplot(fig)
+    plt.close(fig)
 
-    st.markdown(
-        f"**Hydrodynamic Penetration Length**: $\\lambda_c = \\sqrt{{D_{{\\text{{eff}}}} / k_{{\\text{{clear}}}}}} = \\mathbf{{{profile_data['lambda_clearance_um']:.1f}\\,\\mu\\text{{m}}}}$. "
-        f"Drainage boundary sink efficiency at the glia limitans: $\\mathbf{{{100*(1.0 - profile_data['c_vessel_boundary']):.1f}\\%}}$."
+    sink_efficiency = 100.0 * (1.0 - profile_data["c_vessel_boundary"])
+    st.info(
+        f"💡 **Real-Time Biophysical Telemetry**: Perivascular Wall Sink Efficiency = **{sink_efficiency:.1f}%** | "
+        f"Boundary Concentration $C(r_{{\\text{{vessel}}}})$ = **{profile_data['c_vessel_boundary']:.3f}** | "
+        f"Characteristic Drainage Boundary Layer $\\delta_{{\\text{{eff}}}}$ = **{profile_data['delta_penetration_um']:.1f}\\,\\mu\\text{{m}}**."
     )
 
 with tab2:
     st.subheader("Hydrodynamic Bifurcation: Effective Growth Rate vs. DTI-ALPS Index")
-    st.caption("Visualizing the critical transition point where convective clearance breaks down.")
+    st.caption("Visualizing the exact bifurcation point where convective clearance breaks down.")
 
     alps_range = np.linspace(0.90, 1.90, 120)
     growth_rates = []
@@ -323,27 +342,31 @@ with tab2:
             apoe_e4_alleles=apoe_e4_count,
             trem2_r47h=trem2_r47h,
             nlrp3_activated=nlrp3_activated,
+            sleep_fraction=sleep_fraction,
         )
         growth_rates.append(r["effective_growth_rate"] * (365.25 * 86400))
 
     fig2, ax2 = plt.subplots(figsize=(10, 4.5), dpi=150)
     ax2.plot(alps_range, growth_rates, color="#3B82F6", linewidth=2.5, label="Net Growth Rate γ_eff(ALPS)")
     ax2.axhline(0.0, color="#6B7280", linestyle="-", linewidth=1.2)
-    ax2.axvline(alps_crit, color="#DC2626", linestyle="--", linewidth=2.0, label=f"ALPS_crit = {alps_crit:.4f}")
+    ax2.axvline(alps_crit, color="#DC2626", linestyle="--", linewidth=1.8, label=f"ALPS_crit = {alps_crit:.4f}")
 
-    # Highlight patient point
+    # Dynamic crosshair for current patient operating point
+    ax2.axvline(alps_index, color=patient_color, linestyle=":", alpha=0.6)
+    ax2.axhline(gamma_eff_per_year, color=patient_color, linestyle=":", alpha=0.6)
     ax2.scatter(
         [alps_index],
         [gamma_eff_per_year],
-        color="#DC2626" if is_pathologic else "#10B981",
-        s=120,
+        color=patient_color,
+        s=140,
         zorder=5,
+        edgecolor="black",
         label=f"Patient Operating Point ({alps_index:.2f}, {gamma_eff_per_year:+.2f} yr⁻¹)",
     )
 
-    # Shaded regions
-    ax2.axvspan(0.90, alps_crit, color="#FEE2E2", alpha=0.5, label="Pathological Expansion Zone (γ_eff > 0)")
-    ax2.axvspan(alps_crit, 1.90, color="#D1FAE5", alpha=0.5, label="Clearance Stability Zone (γ_eff ≤ 0)")
+    # Shaded stability vs collapse zones
+    ax2.axvspan(0.90, alps_crit, color="#FEE2E2", alpha=0.45, label="Pathological Expansion (γ_eff > 0)")
+    ax2.axvspan(alps_crit, 1.90, color="#D1FAE5", alpha=0.45, label="Clearance Stability (γ_eff ≤ 0)")
 
     ax2.set_xlabel("Clinical DTI-ALPS Index", fontsize=11, fontweight="bold")
     ax2.set_ylabel("Net Expansion Rate γ_eff (year⁻¹)", fontsize=11, fontweight="bold")
@@ -351,6 +374,7 @@ with tab2:
     ax2.legend(loc="upper right", frameon=True, fontsize=9)
     plt.tight_layout()
     st.pyplot(fig2)
+    plt.close(fig2)
 
 with tab3:
     st.subheader("10-Year Neocortical Tau-PET SUVR Accumulation Projection")
@@ -361,29 +385,33 @@ with tab3:
     max_suvr = 2.80   # Braak Stage VI saturation level
 
     # Patient trajectory
-    growth_param = max(-0.05, rates["effective_growth_rate"] * (365.25 * 86400))
-    if growth_param > 0:
-        trajectory_patient = max_suvr / (1.0 + ((max_suvr - base_suvr) / base_suvr) * np.exp(-growth_param * years * 0.35))
+    if gamma_eff_per_year > 0:
+        rate_k = min(1.2, 0.04 * gamma_eff_per_year)
+        trajectory_patient = max_suvr / (1.0 + ((max_suvr - base_suvr) / base_suvr) * np.exp(-rate_k * years))
     else:
-        trajectory_patient = np.maximum(1.02, base_suvr * np.exp(growth_param * years * 0.15))
+        clearance_rate = min(0.10, 0.005 * abs(gamma_eff_per_year))
+        trajectory_patient = np.maximum(1.02, base_suvr * np.exp(-clearance_rate * years))
 
-    # Optimized lifestyle intervention scenario (Sleep optimized to 8.5h + ALPS improved by +0.25 via hypertension control)
-    alps_opt = min(1.80, alps_index + 0.25)
+    # Optimized lifestyle intervention scenario (Sleep optimized to 8.5h + ALPS improved by +0.25 via vascular care)
+    alps_opt = min(1.85, alps_index + 0.25)
     rates_opt = calculate_net_clearance_rate(
         alps_index=alps_opt,
         apoe_e4_alleles=apoe_e4_count,
         trem2_r47h=False,
         nlrp3_activated=False,
+        sleep_fraction=8.5 / 24.0,
     )
-    growth_opt = max(-0.08, rates_opt["effective_growth_rate"] * (365.25 * 86400))
+    growth_opt = rates_opt["effective_growth_rate"] * (365.25 * 86400)
     if growth_opt > 0:
-        trajectory_opt = max_suvr / (1.0 + ((max_suvr - base_suvr) / base_suvr) * np.exp(-growth_opt * years * 0.35))
+        rate_opt = min(1.2, 0.04 * growth_opt)
+        trajectory_opt = max_suvr / (1.0 + ((max_suvr - base_suvr) / base_suvr) * np.exp(-rate_opt * years))
     else:
-        trajectory_opt = np.maximum(1.02, base_suvr * np.exp(growth_opt * years * 0.15))
+        clearance_opt = min(0.10, 0.005 * abs(growth_opt))
+        trajectory_opt = np.maximum(1.02, base_suvr * np.exp(-clearance_opt * years))
 
     fig3, ax3 = plt.subplots(figsize=(10, 4.5), dpi=150)
     ax3.plot(years, trajectory_patient, color="#EF4444" if is_pathologic else "#3B82F6", linewidth=2.5, label="Current Patient Trajectory")
-    ax3.plot(years, trajectory_opt, color="#10B981", linestyle="--", linewidth=2.0, label=f"Optimized Protocol (Sleep 8.5h + ALPS +0.25)")
+    ax3.plot(years, trajectory_opt, color="#10B981", linestyle="--", linewidth=2.0, label="Optimized Protocol (Sleep 8.5h + ALPS +0.25)")
     ax3.axhline(1.35, color="#F59E0B", linestyle=":", linewidth=1.5, label="Tau-PET Positivity Threshold (SUVR = 1.35)")
 
     ax3.set_xlabel("Follow-up Duration (Years)", fontsize=11, fontweight="bold")
@@ -393,6 +421,18 @@ with tab3:
     ax3.legend(loc="upper left", frameon=True, fontsize=9)
     plt.tight_layout()
     st.pyplot(fig3)
+    plt.close(fig3)
+
+    # Time to positivity calculation
+    if is_pathologic:
+        crossing_idx = np.where(trajectory_patient >= 1.35)[0]
+        if len(crossing_idx) > 0:
+            t_cross = years[crossing_idx[0]]
+            st.warning(f"⚠️ **Clinical Alert**: Projected Tau-PET Positivity (SUVR $\\ge 1.35$) reached in **{t_cross:.1f} years** under current perivascular stasis.")
+        else:
+            st.warning("⚠️ **Clinical Alert**: Pathological accumulation detected; Tau-PET positivity imminent within 10 years.")
+    else:
+        st.success("🛡️ **Prognostic Assessment**: Convective clearance maintains long-term tau suppression below diagnostic PET thresholds (>10 years protected).")
 
 with tab4:
     st.subheader("Mathematical Model & Exact Analytical Derivations")

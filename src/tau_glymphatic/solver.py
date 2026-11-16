@@ -46,6 +46,7 @@ def calculate_net_clearance_rate(
     apoe_e4_alleles: int = 0,
     trem2_r47h: bool = False,
     nlrp3_activated: bool = False,
+    sleep_fraction: float = 0.3333,
     geom: PerivascularGeometry = DEFAULT_GEOMETRY,
     glymph_params: GlymphaticFlowParameters = DEFAULT_GLYMPHATIC,
     tau_kinetics: TauKinetics = DEFAULT_TAU_KINETICS,
@@ -57,7 +58,7 @@ def calculate_net_clearance_rate(
     2. Perivascular glymphatic washout: k_glymph = theta * (v_eff / L_pvs)
     3. Microglial phagocytosis minus inflammatory exosomal seeding amplification
     """
-    v_eff = calculate_effective_velocity(alps_index, glymph_params)
+    v_eff = calculate_effective_velocity(alps_index, glymph_params, sleep_fraction=sleep_fraction)
     theta = glymph_params.tau_solvent_drag_fraction
     k_glymph = theta * (v_eff / geom.pvs_width)
 
@@ -68,21 +69,22 @@ def calculate_net_clearance_rate(
         microglia_params=microglia_params,
     )
 
+    phagocytic_deficit = microglia_params.k_phagocytosis_base * strain
     if strain < microglia_params.strain_threshold_flip:
-        phi_microglia = microglia_params.k_phagocytosis_base * (1.0 - strain)
         inflammatory_seeding = 0.0
     else:
         excess_strain = strain - microglia_params.strain_threshold_flip
-        phi_microglia = microglia_params.k_phagocytosis_base * max(0.05, 1.0 - strain)
         inflammatory_seeding = microglia_params.seeding_boost_rate * (
             excess_strain / (1.0 - microglia_params.strain_threshold_flip)
         )
 
-    k_total_clearance = tau_kinetics.k_basal_degradation + k_glymph + phi_microglia
-    total_aggregation_drive = tau_kinetics.rho_aggregation + inflammatory_seeding
-    effective_growth_rate = total_aggregation_drive - k_total_clearance
+    # Autocatalytic seeding drive augmented by neuroinflammation and microglial impairment
+    total_aggregation_drive = tau_kinetics.rho_aggregation + inflammatory_seeding + phagocytic_deficit
 
-    net_stasis_ratio = total_aggregation_drive / max(1e-12, k_total_clearance)
+    # The effective growth rate: if k_glymph exceeds aggregation drive, net growth is negative (washout)
+    effective_growth_rate = total_aggregation_drive - k_glymph
+    k_total_clearance = k_glymph + microglia_params.k_phagocytosis_base * max(0.05, 1.0 - strain)
+    net_stasis_ratio = total_aggregation_drive / max(1e-12, k_glymph)
 
     return {
         "k_glymph": k_glymph,
@@ -100,9 +102,11 @@ def simulate_radial_pvs_profile(
     apoe_e4_alleles: int = 0,
     trem2_r47h: bool = False,
     nlrp3_activated: bool = False,
+    sleep_fraction: float = 0.3333,
     num_grid_points: int = 50,
     geom: PerivascularGeometry = DEFAULT_GEOMETRY,
     physics: BrainTissuePhysics = DEFAULT_PHYSICS,
+    glymph_params: GlymphaticFlowParameters = DEFAULT_GLYMPHATIC,
 ) -> Dict[str, Any]:
     """
     Computes steady-state radial tau concentration profile C(r) across the
@@ -113,6 +117,9 @@ def simulate_radial_pvs_profile(
         apoe_e4_alleles=apoe_e4_alleles,
         trem2_r47h=trem2_r47h,
         nlrp3_activated=nlrp3_activated,
+        sleep_fraction=sleep_fraction,
+        geom=geom,
+        glymph_params=glymph_params,
     )
 
     r_start = geom.r_vessel
@@ -126,18 +133,29 @@ def simulate_radial_pvs_profile(
     lambda_c = math.sqrt(physics.d_eff_tau / k_clear)
     lambda_c_um = lambda_c * 1e6
 
-    # Drainage efficiency at perivascular interface
-    drainage_ratio = rates["k_glymph"] / (rates["k_glymph"] + 1e-6)
-    c_vessel = max(0.05, 1.0 - 0.85 * drainage_ratio)
+    # Reference healthy glymphatic clearance rate
+    v_ref = calculate_effective_velocity(glymph_params.alps_healthy_ref, glymph_params, sleep_fraction=0.3333)
+    k_ref = glymph_params.tau_solvent_drag_fraction * (v_ref / geom.pvs_width)
+    drainage_ratio = rates["k_glymph"] / max(1e-12, k_ref)
+
+    # Boundary concentration at vessel wall r_vessel
+    strain = rates["microglial_strain"]
+    c_vessel_baseline = max(0.12, min(0.92, 1.0 - 0.82 * drainage_ratio))
+    c_vessel = min(0.98, c_vessel_baseline + 0.15 * strain)
+
+    # Boundary penetration layer scaled by convective velocity
+    v_eff = calculate_effective_velocity(alps_index, glymph_params, sleep_fraction=sleep_fraction)
+    pe = (v_eff * geom.pvs_width) / max(1e-15, physics.d_eff_tau)
+    delta_eff_um = 35.0 * (1.0 + 2.0 / (1.0 + max(0.05, pe)))
 
     for i in range(num_grid_points):
         r_m = r_start + i * dr
         r_um = r_m * 1e6
         r_points_um.append(round(r_um, 2))
 
-        decay_factor = math.exp(-(r_m - r_start) / lambda_c)
+        decay_factor = math.exp(-(r_m - r_start) / (delta_eff_um * 1e-6))
         c_val = 1.0 - (1.0 - c_vessel) * decay_factor
-        c_profile.append(round(c_val, 4))
+        c_profile.append(round(min(1.0, max(0.0, c_val)), 4))
 
     return {
         "alps_index": alps_index,
@@ -146,6 +164,7 @@ def simulate_radial_pvs_profile(
         "c_profile": c_profile,
         "c_vessel_boundary": round(c_vessel, 4),
         "lambda_clearance_um": round(lambda_c_um, 2),
+        "delta_penetration_um": round(delta_eff_um, 2),
         "net_growth_rate": rates["effective_growth_rate"],
         "is_pathologic_expansion": rates["is_pathologic_expansion"],
     }

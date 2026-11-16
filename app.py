@@ -5,8 +5,8 @@ A multiscale biophysical reaction-diffusion and perivascular transport dashboard
 for translational neurologists, biophysicists, and neuroscientists.
 
 Author: Luca Celebrano, MD Candidate (Università degli Studi di Napoli Federico II / TIGEM)
-Manuscript ID: BIORXIV/2026/766809
 Certified DOI: 10.5281/zenodo.24261518
+Preprint Archive: CERN Zenodo / Research Square
 """
 
 import sys
@@ -460,7 +460,7 @@ st.markdown(
     <div class="citation-box">
         <strong>Citation Metadata:</strong><br>
         Celebrano, L. (2026). <em>Neuro-Glymphatic Tau Dynamics: An In Silico Multiscale Reaction Diffusion and Perivascular Transport Model of Pathological Tau Spreading in Alzheimer's Disease</em>. 
-        bioRxiv preprint <code>BIORXIV/2026/766809</code>. Certified Archive DOI: <a href="https://doi.org/10.5281/zenodo.24261518" target="_blank">10.5281/zenodo.24261518</a>.
+        Certified CERN Zenodo DOI: <a href="https://doi.org/10.5281/zenodo.24261518" target="_blank">10.5281/zenodo.24261518</a>.
     </div>
     """,
     unsafe_allow_html=True,

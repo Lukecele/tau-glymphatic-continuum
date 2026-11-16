@@ -13,10 +13,10 @@ jobs:
       - name: Ping Streamlit App
         run: |
           echo "Pinging Streamlit App to keep it awake..."
-          RESPONSE=$(curl -s -L -o /dev/null -w "%{http_code}" -A "Mozilla/5.0 (GitHubActions-KeepAlive/1.0)" https://tau-glymphatic-continuum-10.streamlit.app/)
+          RESPONSE=$(curl -s -c /tmp/cookies.txt -b /tmp/cookies.txt -L --max-redirs 10 -o /dev/null -w "%{http_code}" -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" https://tau-glymphatic-continuum-10.streamlit.app/)
           echo "HTTP Response Status: $RESPONSE"
-          if [ "$RESPONSE" -eq 200 ] || [ "$RESPONSE" -eq 302 ] || [ "$RESPONSE" -eq 304 ]; then
+          if [ "$RESPONSE" -eq 200 ] || [ "$RESPONSE" -eq 302 ] || [ "$RESPONSE" -eq 303 ]; then
             echo "Streamlit App is active and responsive (HTTP $RESPONSE)."
           else
-            echo "Warning: Received HTTP $RESPONSE. Ping completed."
+            echo "Status $RESPONSE received. Ping signal sent."
           fi

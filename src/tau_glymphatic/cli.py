@@ -26,7 +26,7 @@ from tau_glymphatic.audit import run_full_biophysical_audit
 def print_banner():
     banner = """
 ================================================================================
-  🧠 NGTD v1.0.0 — Neuro-Glymphatic Tau Dynamics Calculator
+  🧠 NGTD v1.1.1 — Neuro-Glymphatic Tau Dynamics Calculator
   A Multiscale Biophysical Reaction-Diffusion & Perivascular Clearance Engine
   Author: Luca Celebrano, MD Candidate | University of Naples Federico II
 ================================================================================

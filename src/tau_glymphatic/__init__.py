@@ -34,7 +34,7 @@ from tau_glymphatic.cohorts import (
     CohortCompatibilityAuditor,
 )
 
-__version__ = "1.0.0"
+__version__ = "1.1.1"
 __author__ = "Luca Celebrano"
 __license__ = "CC-BY-4.0"
 

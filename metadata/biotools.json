@@ -19,14 +19,6 @@
     {
       "term": "Neurobiology",
       "uri": "http://edamontology.org/topic_3304"
-    },
-    {
-      "term": "Systems biology",
-      "uri": "http://edamontology.org/topic_2259"
-    },
-    {
-      "term": "MRI",
-      "uri": "http://edamontology.org/topic_3444"
     }
   ],
   "function": [
@@ -35,35 +27,14 @@
         {
           "term": "Modelling and simulation",
           "uri": "http://edamontology.org/operation_2426"
-        },
-        {
-          "term": "Visualisation",
-          "uri": "http://edamontology.org/operation_0337"
         }
-      ],
-      "input": [
-        {
-          "data": {
-            "term": "Experimental measurement",
-            "uri": "http://edamontology.org/data_3108"
-          }
-        }
-      ],
-      "output": [
-        {
-          "data": {
-            "term": "Report",
-            "uri": "http://edamontology.org/data_2048"
-          }
-        }
-      ],
-      "cmd": "tau-calc --help"
+      ]
     }
   ],
   "operatingSystem": [
     "Linux",
-    "Mac",
-    "Windows"
+    "Windows",
+    "Mac"
   ],
   "language": [
     "Python"
@@ -75,8 +46,7 @@
   "download": [
     {
       "type": "Source code",
-      "url": "https://github.com/Lukecele/tau-glymphatic-continuum/archive/refs/tags/v1.1.0.tar.gz",
-      "version": "1.1.0"
+      "url": "https://github.com/Lukecele/tau-glymphatic-continuum"
     }
   ],
   "documentation": [
@@ -85,12 +55,6 @@
         "User manual"
       ],
       "url": "https://github.com/Lukecele/tau-glymphatic-continuum/blob/main/README.md"
-    },
-    {
-      "type": [
-        "Citation instructions"
-      ],
-      "url": "https://github.com/Lukecele/tau-glymphatic-continuum/blob/main/CITATION.cff"
     }
   ],
   "publication": [
@@ -110,16 +74,6 @@
         "Primary contact",
         "Developer",
         "Maintainer"
-      ],
-      "note": "MD Candidate, Department of Clinical Medicine and Surgery, Università degli Studi di Napoli Federico II"
-    },
-    {
-      "name": "Università degli Studi di Napoli Federico II",
-      "url": "http://www.unina.it",
-      "rorid": "05290cv24",
-      "typeEntity": "Institute",
-      "typeRole": [
-        "Provider"
       ]
     }
   ]

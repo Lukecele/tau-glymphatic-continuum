@@ -21,7 +21,10 @@ from tau_glymphatic.solver import (
     calculate_net_clearance_rate,
     simulate_radial_pvs_profile,
 )
-from tau_glymphatic.pde_brinkman import calculate_dimensionless_hydrodynamic_numbers
+from tau_glymphatic.pde_brinkman import (
+    calculate_dimensionless_hydrodynamic_numbers,
+    get_annular_stokes_peak_radius,
+)
 from tau_glymphatic.statistics import run_random_effects_meta_analysis
 from tau_glymphatic.cohorts import CohortCompatibilityAuditor
 
@@ -115,18 +118,22 @@ def run_full_biophysical_audit() -> Dict[str, Any]:
         "detail": f"lambda_c = {sim_healthy['lambda_clearance_um']:.2f} um (human cortical laminae depth scale ~1-3 mm)",
     })
 
-    # Check 8: Theoretical Fluid Mechanics Invariants (Stokes, Quasi-steady, Schmidt)
+    # Check 8: Theoretical Fluid Mechanics Invariants (Stokes, Quasi-steady, Schmidt, r* Extremum)
     dims = calculate_dimensionless_hydrodynamic_numbers()
+    r_peak = get_annular_stokes_peak_radius()
+    r_peak_um = r_peak * 1e6
     fluid_pass = (
         dims["is_stokes_regime_valid"]
         and dims["is_quasi_steady_valid"]
         and dims["schmidt_number"] > 1e4
         and dims["mechanosensory_piezo1_sensing_valid"]
+        and math.isclose(r_peak_um, 19.0813, rel_tol=1e-3)
+        and r_peak_um < 20.0  # Inward logarithmic shift in cylindrical geometry
     )
     results.append({
-        "check": "Theoretical Fluid Mechanics Invariants (Stokes & Pulsatility)",
+        "check": "Theoretical Fluid Mechanics Invariants (Stokes, r*=19.08um, & Pulsatility)",
         "passed": fluid_pass,
-        "detail": f"Re={dims['reynolds_number']:.2e} (<1e-3), Womersley alpha={dims['womersley_number']:.3f} (<0.10), Sc={dims['schmidt_number']:.1e}",
+        "detail": f"Re={dims['reynolds_number']:.2e} (<1e-3), alpha={dims['womersley_number']:.3f} (<0.10), r*={r_peak_um:.2f}um (<20um), Sc={dims['schmidt_number']:.1e}",
     })
 
     # Check 9: Multi-Cohort Compatibility & DerSimonian-Laird Homogeneity

@@ -27,6 +27,11 @@ from tau_glymphatic.solver import (
     calculate_net_clearance_rate,
     simulate_radial_pvs_profile,
 )
+from tau_glymphatic.pde_brinkman import (
+    get_annular_stokes_peak_radius,
+    solve_annular_stokes_velocity_profile,
+    calculate_dimensionless_hydrodynamic_numbers,
+)
 from tau_glymphatic.audit import run_full_biophysical_audit
 from tau_glymphatic.cohorts import (
     ClinicalCohortMetadata,
@@ -34,7 +39,7 @@ from tau_glymphatic.cohorts import (
     CohortCompatibilityAuditor,
 )
 
-__version__ = "1.1.1"
+__version__ = "1.1.2"
 __author__ = "Luca Celebrano"
 __license__ = "CC-BY-4.0"
 
@@ -55,6 +60,9 @@ __all__ = [
     "calculate_microglial_strain",
     "calculate_net_clearance_rate",
     "simulate_radial_pvs_profile",
+    "get_annular_stokes_peak_radius",
+    "solve_annular_stokes_velocity_profile",
+    "calculate_dimensionless_hydrodynamic_numbers",
     "run_full_biophysical_audit",
     "ClinicalCohortMetadata",
     "AUDITED_COHORTS",

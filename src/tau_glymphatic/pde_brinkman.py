@@ -27,6 +27,8 @@ class BrinkmanHydrodynamicParameters:
     beavers_joseph_slip: float = 0.10     # Dimensionless BJS slip coefficient at glia limitans
     arterial_pulsatility_freq: float = 1.0 # Heart rate frequency 1 Hz (60 bpm)
     arterial_wall_amplitude: float = 0.05  # Radial displacement amplitude fraction (5%)
+    pvs_hydraulic_attenuation: float = 0.0615 # Attenuation factor eta_pvs accounting for ECM meshwork & pulsatile duty cycle
+    effective_pressure_gradient_pa_m: float = 2.46 # Effective driving gradient |dp/dz|_eff = eta_pvs * 40 Pa/m
 
 
 @dataclass(frozen=True)
@@ -42,24 +44,41 @@ DEFAULT_BRINKMAN = BrinkmanHydrodynamicParameters()
 DEFAULT_NUCLEATION = NucleationElongationKinetics()
 
 
+def get_annular_stokes_peak_radius(geom: PerivascularGeometry = DEFAULT_GEOMETRY) -> float:
+    """
+    Computes exact radial coordinate r* of maximum axial velocity for Stokes flow
+    in an annular duct (r0 <= r <= r1):
+      r* = sqrt( (r1^2 - r0^2) / (2 * ln(r1 / r0)) )
+    
+    Due to logarithmic curvature in cylindrical coordinates, r* falls strictly
+    inside the arithmetic midpoint (r0 + r1) / 2.
+    For r0 = 10.0 um, r1 = 30.0 um: r* = sqrt(800 / (2 * ln(3))) = 19.0813 um.
+    """
+    r0 = geom.r_vessel
+    r1 = geom.r_pvs_outer
+    return math.sqrt((r1 * r1 - r0 * r0) / (2.0 * math.log(r1 / r0)))
+
+
 def solve_annular_stokes_velocity_profile(
     r_points: List[float],
     dp_dz: float = -20.0,  # Axial pressure gradient in Pa/m
     geom: PerivascularGeometry = DEFAULT_GEOMETRY,
     brinkman: BrinkmanHydrodynamicParameters = DEFAULT_BRINKMAN,
+    attenuation_factor: float = 1.0,  # Set to brinkman.pvs_hydraulic_attenuation (0.0615) for in vivo effective velocity
 ) -> List[float]:
     """
     Solves exact analytical velocity profile v_z(r) for steady laminar Stokes flow
     in an annular cylinder (r_0 <= r <= r_1):
     
-      v_z(r) = (1 / 4*mu) * (-dp/dz) * [ (r_1^2 - r^2) + (r_1^2 - r_0^2) * ln(r/r_1) / ln(r_0/r_1) ]
+      v_z(r) = (eta / 4*mu) * (-dp/dz) * [ (r_1^2 - r^2) + (r_1^2 - r_0^2) * ln(r/r_1) / ln(r_0/r_1) ]
     
     Returns axial velocity in m/s at each radial coordinate r.
+    Peak velocity occurs exactly at r* = sqrt((r1^2 - r0^2)/(2*ln(r1/r0))) = 19.081 um.
     """
     r0 = geom.r_vessel
     r1 = geom.r_pvs_outer
     mu = brinkman.viscosity_csf
-    grad_p = -dp_dz  # Positive drive
+    grad_p = -dp_dz * attenuation_factor  # Positive effective drive
 
     ln_ratio = math.log(r0 / r1)
     r1_sq = r1 * r1

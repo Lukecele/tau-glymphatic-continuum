@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "tau-glymphatic-continuum"
-version = "1.1.1"
+version = "1.1.2"
 description = "Multiscale Biophysical Reaction-Diffusion and Perivascular Glymphatic Clearance Engine for Tauopathies"
 readme = "README.md"
 authors = [

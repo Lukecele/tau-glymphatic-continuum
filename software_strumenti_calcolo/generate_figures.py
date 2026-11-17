@@ -40,23 +40,25 @@ def generate_figure_1():
     fig, ax = plt.subplots(figsize=(8, 5), dpi=300)
 
     r_vals = np.linspace(10.0e-6, 30.0e-6, 100)
-    v_stokes = solve_annular_stokes_velocity_profile(list(r_vals), dp_dz=-40.0)
+    # Calibrated effective velocity profile in NREM sleep (v_peak = 0.187 um/s)
+    v_stokes = solve_annular_stokes_velocity_profile(list(r_vals), dp_dz=-40.0, attenuation_factor=0.0805)
     v_um_s = [v * 1e6 for v in v_stokes]
     r_um = r_vals * 1e6
 
-    ax.plot(r_um, v_um_s, color="#2980b9", lw=2.5, label="Axial Velocity $v_z(r)$ (NREM Sleep)")
+    ax.plot(r_um, v_um_s, color="#2980b9", lw=2.5, label="Axial Velocity $v_z(r)$ (NREM Sleep, $v_{\\mathrm{peak}}=0.187\\,\\mu\\mathrm{m/s}$)")
     ax.fill_between(r_um, 0, v_um_s, color="#3498db", alpha=0.25)
 
     ax.axvline(10.0, color="#c0392b", linestyle="--", lw=1.8, label="Arteriolar Wall ($r_0 = 10\\,\\mu\\mathrm{m}$)")
+    ax.axvline(19.0813, color="#8e44ad", linestyle=":", lw=2.0, label="Stokes Peak ($r^* = 19.08\\,\\mu\\mathrm{m}$)")
     ax.axvline(30.0, color="#27ae60", linestyle="--", lw=1.8, label="Glia Limitans ($r_1 = 30\\,\\mu\\mathrm{m}$)")
 
     ax.set_title("Figure 1. Annular Stokes Hydrodynamics in the Virchow-Robin Space", fontsize=12, pad=12, fontweight="bold")
     ax.set_xlabel("Radial Distance from Vessel Center $r$ ($\\mu\\mathrm{m}$)", fontsize=11)
     ax.set_ylabel("Perivascular Fluid Velocity $v_z$ ($\\mu\\mathrm{m}/\\mathrm{s}$)", fontsize=11)
     ax.set_xlim(8, 32)
-    ax.set_ylim(0, max(v_um_s) * 1.15)
+    ax.set_ylim(0, max(v_um_s) * 1.25)
     ax.grid(True, linestyle=":", alpha=0.6)
-    ax.legend(frameon=True, facecolor="white", edgecolor="#bdc3c7", loc="upper right")
+    ax.legend(frameon=True, facecolor="white", edgecolor="#bdc3c7", loc="upper right", fontsize=8.5)
 
     plt.tight_layout()
     fig.savefig(os.path.join(OUTPUT_DIR, "Figure1_pvs_hydrodynamics.png"), dpi=300)

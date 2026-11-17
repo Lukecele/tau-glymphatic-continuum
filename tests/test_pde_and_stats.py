@@ -4,6 +4,7 @@ Unit tests for Brinkman hydrodynamics, Fisher wave pinning, and statistical mech
 
 from tau_glymphatic.pde_brinkman import (
     solve_annular_stokes_velocity_profile,
+    get_annular_stokes_peak_radius,
     calculate_front_velocity_fisher,
     evaluate_wave_pinning_criterion,
     calculate_dimensionless_hydrodynamic_numbers,
@@ -29,6 +30,12 @@ def test_annular_stokes_velocity():
     # Peak velocity in the middle of PVS
     assert vels[2] > vels[0]
     assert vels[2] > vels[-1]
+
+    # Exact peak radius r* = sqrt((r1^2 - r0^2)/(2*ln(r1/r0)))
+    r_peak = get_annular_stokes_peak_radius()
+    r_peak_um = r_peak * 1e6
+    assert round(r_peak_um, 2) == 19.08
+    assert r_peak_um < 20.0  # Curvature shifts peak inward from midpoint (10+30)/2 = 20.0
 
 
 def test_fisher_wave_pinning():
@@ -63,6 +70,9 @@ def test_mediation_path_model():
     assert med["proportion_mediated_percent"] > 50.0
     assert med["is_bootstrap_significant"]
     assert med["bootstrap_ci_95"][0] > 0.0
+    assert med["agrema_compliant"]
+    assert med["total_effect_c"] == 0.0397
+    assert med["direct_effect_c_prime"] == 0.0120
 
 
 def test_sobol_sensitivity_and_roc():

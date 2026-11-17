@@ -2,9 +2,8 @@
 
 **Theoretical Derivations, Dimensionless Invariants, Parameter Master Ledger, and Multi-Cohort Methodological Harmonization**
 
-**Author**: Luca Celebrano $^{1,2}$  
+**Author**: Luca Celebrano $^{1}$  
 $^{1}$ Department of Clinical Medicine and Surgery, School of Medicine and Surgery, Università degli Studi di Napoli Federico II, Via Sergio Pansini 5, 80131 Naples, Italy  
-$^{2}$ Telethon Institute of Genetics and Medicine (TIGEM), Via Campi Flegrei 34, 80078 Pozzuoli, Naples, Italy  
 **Correspondence**: `l.celebrano@studenti.unina.it` | **ORCID**: [0009-0007-0931-3555](https://orcid.org/0009-0007-0931-3555)  
 **Permanent Repository & Code Provenance**: [https://github.com/Lukecele/tau-glymphatic-continuum](https://github.com/Lukecele/tau-glymphatic-continuum)  
 **Certified Archive DOI**: [10.5281/zenodo.24261518](https://doi.org/10.5281/zenodo.24261518)  

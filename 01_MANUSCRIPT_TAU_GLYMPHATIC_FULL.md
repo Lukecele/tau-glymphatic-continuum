@@ -1,8 +1,7 @@
 # Neuro-Glymphatic Tau Dynamics: A Multiscale Reaction–Diffusion and Perivascular Transport Model of Pathological Tau Propagation in Alzheimer's Disease
 
-**Author**: Luca Celebrano $^{1,2}$  
+**Author**: Luca Celebrano $^{1}$  
 $^{1}$ Department of Clinical Medicine and Surgery, School of Medicine and Surgery, Università degli Studi di Napoli Federico II, Via Sergio Pansini 5, 80131 Naples, Italy  
-$^{2}$ Telethon Institute of Genetics and Medicine (TIGEM), Via Campi Flegrei 34, 80078 Pozzuoli, Naples, Italy  
 **Correspondence**: `l.celebrano@studenti.unina.it` | **ORCID**: [0009-0007-0931-3555](https://orcid.org/0009-0007-0931-3555)  
 **Permanent Repository & Code Provenance**: [https://github.com/Lukecele/tau-glymphatic-continuum](https://github.com/Lukecele/tau-glymphatic-continuum)  
 **Certified Archive DOI**: [10.5281/zenodo.24261518](https://doi.org/10.5281/zenodo.24261518)  
@@ -245,4 +244,5 @@ By demonstrating that the stereotypical Braak progression of Alzheimer's disease
 * **Competing Interests**: The author declares no competing financial or commercial conflicts of interest.
 * **Ethics Approval**: All human data utilized in this study were obtained from publicly accessible, de-identified multi-center repositories (ADNI, A4, WHUH) with existing Institutional Review Board (IRB) approvals and participant informed consent.
 * **Data Availability**: The audited clinical cohort benchmarks, compatibility matrices, and statistical distributions are fully reproducible and documented within the open-source repository.
-* **Code Availability**: The complete Python 3 NGTD simulation engine, `tau-calc` CLI, and figure generation pipelines are available under the Creative Commons Attribution 4.0 International License (CC-BY-4.0) at [https://github.com/Lukecele/tau-glymphatic-continuum](https://github.com/Lukecele/tau-glymphatic-continuum) and archived at CERN Zenodo (DOI: [10.5281/zenodo.24261518](https://doi.org/10.5281/zenodo.24261518)).
+* **Code Availability**: The complete Python 3 NGTD simulation engine, `tau-calc` CLI, and figure generation pipelines are open-source under the MIT License at [https://github.com/Lukecele/tau-glymphatic-continuum](https://github.com/Lukecele/tau-glymphatic-continuum), permanently archived at CERN Zenodo (DOI: [10.5281/zenodo.24261518](https://doi.org/10.5281/zenodo.24261518)), cataloged on ELIXIR bio.tools (`biotools:tau-glymphatic-continuum`), and distributed via Bioconda (`tau-glymphatic-continuum`).
+* **Author Contributions**: L.C. conceptualized the study, developed the mathematical biophysical framework and Stokes-Brinkman traveling-wave equations, curated and audited the multi-center clinical diffusion datasets, implemented the software engine and simulation test suite, performed the statistical and mediation analyses, and wrote the manuscript.

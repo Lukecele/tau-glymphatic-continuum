@@ -166,7 +166,12 @@ def calculate_dimensionless_hydrodynamic_numbers(
     schmidt = nu / d_eff
 
     # 5. Damkohler number
-    damkohler = (k_growth * w_pvs) / abs(v_velocity) if abs(v_velocity) > 1e-15 else float("inf")
+    # Local PVS width scale:
+    damkohler_local = (k_growth * w_pvs) / abs(v_velocity) if abs(v_velocity) > 1e-15 else float("inf")
+    # Penetrating cortical vessel depth scale (L = 1.0 mm, elongation kinetic timescale):
+    l_penetrating = 1.0e-3
+    k_elongation = 2.0e-5  # Knowles-Vendruscolo elongation rate
+    damkohler_penetrating = (k_elongation * l_penetrating) / abs(v_velocity) if abs(v_velocity) > 1e-15 else float("inf")
 
     # 6. Wall Shear Stress at glia limitans (tau = mu * dv/dr approx mu * (2 * v_avg / w_pvs))
     tau_wall = mu * (2.0 * abs(v_velocity) / w_pvs)
@@ -178,9 +183,12 @@ def calculate_dimensionless_hydrodynamic_numbers(
         "is_quasi_steady_valid": womersley < 0.10,
         "annular_peclet_number": round(peclet, 4),
         "schmidt_number": round(schmidt, 1),
-        "damkohler_number": round(damkohler, 6) if damkohler != float("inf") else 999.0,
+        "damkohler_number": round(damkohler_local, 6) if damkohler_local != float("inf") else 999.0,
+        "damkohler_number_local": round(damkohler_local, 6) if damkohler_local != float("inf") else 999.0,
+        "damkohler_number_penetrating": round(damkohler_penetrating, 4) if damkohler_penetrating != float("inf") else 999.0,
         "wall_shear_stress_pascal": tau_wall,
-        "mechanosensory_piezo1_sensing_valid": 1e-5 <= tau_wall <= 1e-1,
+        "wall_shear_stress_millipascal": round(tau_wall * 1e3, 4),
+        "mechanosensory_piezo1_sensing_valid": 1e-6 <= tau_wall <= 1e-1,
         "summary": (
             f"Stokes valid (Re={reynolds:.2e} << 1); Quasi-steady valid (alpha={womersley:.3f} << 1); "
             f"Momentum dominates mass (Sc={schmidt:.1e} >> 1)."

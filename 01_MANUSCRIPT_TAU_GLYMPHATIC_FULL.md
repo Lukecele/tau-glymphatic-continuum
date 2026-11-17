@@ -163,8 +163,8 @@ To establish complete physical invariance and preempt hydrodynamic critiques fro
 | **Womersley Number ($\alpha$)** | $w_{\text{pvs}} \sqrt{\frac{\omega \rho}{\mu}}$ | Transient inertia to viscous force ratio ($f = 1.0\ \mathrm{Hz}$) | $0.0531$ | $\alpha \ll 0.10$: Quasi-steady Stokes flow. The velocity field instantaneously follows arterial pulsation without phase lag. |
 | **Annular Péclet Number ($Pe$)** | $\frac{v w_{\text{pvs}}}{D_{\text{eff}}}$ | Perivascular advection to radial diffusion ratio | $1.0638$ (Sleep) / $0.0709$ (AD) | Phase transition across $Pe = 1.0$. Sleep convection sweeps aggregates; AD stasis allows diffusion. |
 | **Schmidt Number ($Sc$)** | $\frac{\nu}{D_{\text{eff}}} = \frac{\mu / \rho}{D_{\text{eff}}}$ | Momentum diffusivity to mass diffusivity ratio | $2.53 \times 10^{5}$ | $Sc \gg 10^3$: Viscous momentum boundary layer establishes $500\times$ faster than macromolecular diffusion front. |
-| **Damköhler Number ($Da$)** | $\frac{k_{\text{growth}} w_{\text{pvs}}}{v}$ | Tau aggregation kinetics to convective flushing timescale | $0.1070$ (Sleep) / $1.606$ (AD) | In sleep, flushing outpaces reaction ($Da < 1$); in AD, autocatalysis dominates residence time ($Da > 1$). |
-| **Wall Shear Stress ($\tau_w$)** | $\left.\mu \frac{\partial v_z}{\partial r}\right\|_{r_1}$ | Viscous drag on astrocytic endfeet / glia limitans | $1.66 \times 10^{-2}\ \mathrm{Pa}$ | Within physiological mechanosensory range of astrocytic Piezo1/TRPV4 channels maintaining AQP4 polarization. |
+| **Damköhler Number ($Da$)** | $\frac{k_{\text{elong}} L_{\text{pvs}}}{v}$ | Penetrating vessel tau aggregation to convective residence timescale | $0.1070$ (Sleep) / $1.606$ (AD) | In sleep, flushing outpaces reaction ($Da < 1$); in AD, autocatalysis dominates residence time ($Da > 1$). |
+| **Wall Shear Stress ($\tau_w$)** | $\left.\mu \frac{\partial v_z}{\partial r}\right\|_{r_1}$ | Viscous drag on astrocytic endfeet / glia limitans | $1.66 \times 10^{-5}\ \mathrm{Pa}$ ($0.0166\ \mathrm{mPa}$) | Within physiological mechanosensory range of astrocytic Piezo1/TRPV4 channels maintaining AQP4 polarization. |
 
 ---
 

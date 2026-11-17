@@ -132,9 +132,15 @@ def generate_figure_3():
 
 
 def generate_figure_4():
-    """Figure 4: Multi-Cohort Forest Plot (N = 2,758)."""
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5.5), dpi=300, gridspec_kw={"width_ratios": [1.4, 1.0]})
+    """Figure 4: Multi-Cohort Meta-Analysis (N = 2,758), Non-Assimilable Category Partition & Mediation Path."""
+    fig = plt.figure(figsize=(16, 5.5), dpi=300)
+    gs = fig.add_gridspec(1, 3, width_ratios=[1.2, 1.0, 1.1])
 
+    ax1 = fig.add_subplot(gs[0, 0])
+    ax2 = fig.add_subplot(gs[0, 1])
+    ax3 = fig.add_subplot(gs[0, 2])
+
+    # Panel A: Forest Plot
     meta = run_random_effects_meta_analysis()
     studies = meta["individual_studies"]
 
@@ -150,34 +156,64 @@ def generate_figure_4():
 
     ax1.axvline(0.0, color="#7f8c8d", linestyle="--", lw=1.2)
     ax1.set_yticks(y_pos)
-    ax1.set_yticklabels(names, fontsize=9.5)
+    ax1.set_yticklabels(names, fontsize=8.5)
     ax1.invert_yaxis()
-    ax1.set_xlabel("Standardized Mean Difference (Cohen's d: Healthy vs AD)", fontsize=10.5)
-    ax1.set_title("A. Multi-Cohort Meta-Analysis ($N = 2,758$)", fontsize=11, fontweight="bold")
+    ax1.set_xlabel("Cohen's d (Healthy vs AD)", fontsize=10)
+    ax1.set_title("A. Multi-Cohort Meta-Analysis ($N = 2,758$)", fontsize=10.5, fontweight="bold")
     ax1.grid(True, linestyle=":", alpha=0.5)
 
-    # Panel B: Mediation Diagram
-    ax2.axis("off")
-    ax2.set_title("B. Structural Equation Path Mediation", fontsize=11, fontweight="bold")
+    # Panel B: Non-Assimilable Clinical Categories Progression
+    from tau_glymphatic.cohorts import CohortCompatibilityAuditor
+    cats = CohortCompatibilityAuditor.get_category_breakdown()
+    cat_names = ["CN\n(n=1,075)", "SCD\n(n=248)", "MCI\n(n=891)", "AD\n(n=544)"]
+    cat_means = [
+        cats["cognitively_normal_cn"]["weighted_mean_alps"],
+        cats["subjective_cognitive_decline_scd"]["weighted_mean_alps"],
+        cats["mild_cognitive_impairment_mci"]["weighted_mean_alps"],
+        cats["alzheimers_disease_dementia_ad"]["weighted_mean_alps"],
+    ]
+    cat_sds = [
+        cats["cognitively_normal_cn"]["pooled_sd_alps"],
+        cats["subjective_cognitive_decline_scd"]["pooled_sd_alps"],
+        cats["mild_cognitive_impairment_mci"]["pooled_sd_alps"],
+        cats["alzheimers_disease_dementia_ad"]["pooled_sd_alps"],
+    ]
+    bar_colors = ["#27ae60", "#2980b9", "#f39c12", "#c0392b"]
 
-    # Draw boxes
+    x_indices = np.arange(len(cat_names))
+    ax2.errorbar(x_indices, cat_means, yerr=cat_sds, fmt="o-", color="#2c3e50", ecolor="#7f8c8d", elinewidth=2, capsize=6, markersize=8, lw=1.8)
+    for i, (m, col) in enumerate(zip(cat_means, bar_colors)):
+        ax2.scatter(x_indices[i], m, color=col, s=120, zorder=5)
+
+    ax2.axhline(1.3319, color="#8e44ad", linestyle="--", lw=1.8, label="$\\mathrm{ALPS}_{\\mathrm{crit}} = 1.33$ (Tipping Point)")
+    ax2.set_xticks(x_indices)
+    ax2.set_xticklabels(cat_names, fontsize=9, fontweight="bold")
+    ax2.set_ylabel("DTI-ALPS Glymphatic Index", fontsize=10)
+    ax2.set_ylim(0.95, 1.85)
+    ax2.set_title("B. Non-Assimilable Categories ($N = 2,758$)", fontsize=10.5, fontweight="bold")
+    ax2.legend(loc="upper right", fontsize=8.5, frameon=True)
+    ax2.grid(True, linestyle=":", alpha=0.5)
+
+    # Panel C: Mediation Diagram
+    ax3.axis("off")
+    ax3.set_title("C. Structural Equation Path Mediation", fontsize=10.5, fontweight="bold")
+
     bbox_props = dict(boxstyle="round,pad=0.5", fc="#ecf0f1", ec="#2c3e50", lw=1.5)
-    ax2.text(0.5, 0.85, "Neuroinflammation\n(Microglia Strain $I_{\\mathrm{strain}}$)", ha="center", va="center", bbox=bbox_props, fontsize=10, fontweight="bold")
-    ax2.text(0.15, 0.40, "DTI-ALPS Glymphatic\nClearance Failure", ha="center", va="center", bbox=dict(boxstyle="round,pad=0.5", fc="#fce4ec", ec="#c2185b", lw=1.5), fontsize=10, fontweight="bold")
-    ax2.text(0.85, 0.40, "Tau PET Burden\n(Cortex/Hippocampus)", ha="center", va="center", bbox=dict(boxstyle="round,pad=0.5", fc="#e8f8f5", ec="#16a085", lw=1.5), fontsize=10, fontweight="bold")
-    ax2.text(0.5, 0.10, "Cognitive Decline\n(Clinical Dementia Rating / MMSE)", ha="center", va="center", bbox=bbox_props, fontsize=10, fontweight="bold")
+    ax3.text(0.5, 0.85, "Neuroinflammation\n(Microglia Strain $I_{\\mathrm{strain}}$)", ha="center", va="center", bbox=bbox_props, fontsize=9.5, fontweight="bold")
+    ax3.text(0.15, 0.40, "DTI-ALPS Glymphatic\nClearance Failure", ha="center", va="center", bbox=dict(boxstyle="round,pad=0.5", fc="#fce4ec", ec="#c2185b", lw=1.5), fontsize=9.5, fontweight="bold")
+    ax3.text(0.85, 0.40, "Tau PET Burden\n(Cortex/Hippocampus)", ha="center", va="center", bbox=dict(boxstyle="round,pad=0.5", fc="#e8f8f5", ec="#16a085", lw=1.5), fontsize=9.5, fontweight="bold")
+    ax3.text(0.5, 0.10, "Cognitive Decline\n(Clinical Dementia Rating / MMSE)", ha="center", va="center", bbox=bbox_props, fontsize=9.5, fontweight="bold")
 
-    # Draw arrows with labels
-    ax2.annotate("", xy=(0.25, 0.52), xytext=(0.42, 0.75), arrowprops=dict(arrowstyle="->", lw=2, color="#c0392b"))
-    ax2.text(0.28, 0.67, "$\\beta = -0.171$\n$p = 0.046$", fontsize=9, color="#c0392b", ha="right")
+    ax3.annotate("", xy=(0.25, 0.52), xytext=(0.42, 0.75), arrowprops=dict(arrowstyle="->", lw=2, color="#c0392b"))
+    ax3.text(0.28, 0.67, "$\\beta = -0.171$\n$p = 0.046$", fontsize=8.5, color="#c0392b", ha="right")
 
-    ax2.annotate("", xy=(0.75, 0.40), xytext=(0.35, 0.40), arrowprops=dict(arrowstyle="->", lw=2.5, color="#8e44ad"))
-    ax2.text(0.55, 0.43, "$\\beta = 0.162$\n$p = 0.010$", fontsize=9, color="#8e44ad", ha="center")
+    ax3.annotate("", xy=(0.75, 0.40), xytext=(0.35, 0.40), arrowprops=dict(arrowstyle="->", lw=2.5, color="#8e44ad"))
+    ax3.text(0.55, 0.43, "$\\beta = 0.162$\n$p = 0.010$", fontsize=8.5, color="#8e44ad", ha="center")
 
-    ax2.annotate("", xy=(0.75, 0.75), xytext=(0.58, 0.52), arrowprops=dict(arrowstyle="<-", lw=2, color="#16a085"))
-    ax2.annotate("", xy=(0.50, 0.22), xytext=(0.75, 0.32), arrowprops=dict(arrowstyle="->", lw=2, color="#2c3e50"))
+    ax3.annotate("", xy=(0.75, 0.75), xytext=(0.58, 0.52), arrowprops=dict(arrowstyle="<-", lw=2, color="#16a085"))
+    ax3.annotate("", xy=(0.50, 0.22), xytext=(0.75, 0.32), arrowprops=dict(arrowstyle="->", lw=2, color="#2c3e50"))
 
-    ax2.text(0.5, 0.28, "Indirect Mediation: 69.8%\n(Bootstrap 95% CI: 0.0105–0.0482)", ha="center", fontsize=9.5, fontweight="bold", color="#8e44ad", bbox=dict(boxstyle="square,pad=0.3", fc="#f4ecf7", ec="#8e44ad", lw=1))
+    ax3.text(0.5, 0.28, "Indirect Mediation: 69.8%\n(Bootstrap 95% CI: 0.0105–0.0482)", ha="center", fontsize=9, fontweight="bold", color="#8e44ad", bbox=dict(boxstyle="square,pad=0.3", fc="#f4ecf7", ec="#8e44ad", lw=1))
 
     plt.tight_layout()
     fig.savefig(os.path.join(OUTPUT_DIR, "Figure4_multicohort_meta_analysis.png"), dpi=300)

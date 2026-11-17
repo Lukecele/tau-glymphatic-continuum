@@ -64,7 +64,7 @@ def main():
     parser.add_argument(
         "--audit",
         action="store_true",
-        help="Execute the full 9-step biophysical invariant and dimensional audit suite.",
+        help="Execute the full 10-step biophysical invariant, cohort partition, and dimensional audit suite.",
     )
     parser.add_argument(
         "--json",

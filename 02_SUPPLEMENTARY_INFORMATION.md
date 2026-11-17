@@ -204,7 +204,20 @@ To demonstrate mathematical rigor against theoretical physics scrutiny, we prove
 | **ROI Placement Standard** | Taoka Canonical Periventricular | Taoka Canonical Periventricular | Taoka Canonical Periventricular | Taoka Canonical Periventricular | Lateral ventricle projection/assoc |
 | **Diagnostic Criteria** | NIA-AA $A^+/T^+$ Biomarkers | NIA-AA $A^+/T^+$ Biomarkers | NIA-AA $A^+/T^+$ Biomarkers | Clinical & CSF Biomarkers | Biomarker Confirmed AD |
 | **Tau PET Radiotracer** | [18F]Flortaucipir (AV-1451) | [18F]Flortaucipir (AV-1451) | [18F]Flortaucipir + Amyloid | Multimodal Standardized | Cerebellar cortex reference |
+| **Non-Assimilable Categories** | $138\text{ CN},\ 145\text{ MCI},\ 72\text{ AD}$ | $23\text{ CN},\ 22\text{ MCI},\ 14\text{ AD}$ | $196\text{ CN},\ 64\text{ SCD},\ 162\text{ MCI},\ 90\text{ AD}$ | $718\text{ CN},\ 184\text{ SCD},\ 562\text{ MCI},\ 368\text{ AD}$ | Strict Diagnostic Partition |
 | **Quality Audit Status** | **100% Fully Compatible** | **100% Fully Compatible** | **100% Fully Compatible** | **100% Fully Compatible** | **100% Multi-Center Gate Pass** |
+
+---
+
+## Supplementary Table S3: Detailed Breakdown of Non-Assimilable Clinical Categories ($N = 2,758$)
+
+| Category Identifier | Neuropathological & Clinical Definition | Total Sample ($n$) | Percentage (%) | Weighted Mean ALPS $\pm$ Pooled SD | Convective State & Péclet Number |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **CN (Cognitively Normal)** | Asymptomatic, normal neuropsychological testing, $\mathrm{CDR} = 0$, $\mathrm{MMSE} = 29.0 \pm 1.2$ | $1,075$ | $38.98\%$ | $1.582 \pm 0.144$ | Intact convection, $Pe = 1.06 > 1.0$ (wave-pinning regime) |
+| **SCD (Subjective Cognitive Decline)** | Persistent subjective worsening, normal objective tests, $\mathrm{CDR} = 0$, $\mathrm{MMSE} = 28.3 \pm 1.4$ | $248$ | $8.99\%$ | $1.465 \pm 0.137$ | Pre-symptomatic resistance, $Pe = 0.65$ ($16.3\%$ subclinical failure) |
+| **MCI (Mild Cognitive Impairment)** | Objective impairment in $\ge 1$ domain, preserved ADLs, $\mathrm{CDR} = 0.5$, $\mathrm{MMSE} = 25.9 \pm 2.2$ | $891$ | $32.31\%$ | $1.345 \pm 0.123$ | Critical tipping point ($\mathrm{ALPS}_{\text{crit}} = 1.332$), $45.1\%$ impaired |
+| **AD (Alzheimer's Disease Dementia)** | Multidomain dementia, functional loss, $\mathrm{CDR} \ge 1$, $\mathrm{MMSE} = 20.9 \pm 3.3$ | $544$ | $19.72\%$ | $1.155 \pm 0.142$ | Hydraulic collapse, $Pe = 0.07 \ll 1.0$, unmitigated tau invasion |
+| **Cumulative Benchmark** | Harmonized multi-center clinical matrix | **$2,758$** | **$100.0\%$** | **$1.411 \pm 0.201$** | **100% Real Patient Cases (Zero Synthetic Data)** |
 
 ---
 

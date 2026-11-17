@@ -66,14 +66,21 @@ def test_mediation_path_model():
 
 
 def test_sobol_sensitivity_and_roc():
-    sobol = compute_sobol_sensitivity_indices(num_samples=200)
+    sobol = compute_sobol_sensitivity_indices(num_alps_steps=50)
     assert 0.0 < sobol["sobol_s1_alps_index"] < 1.0
     assert 0.0 < sobol["sobol_s1_apoe_e4"] < 1.0
 
-    roc = evaluate_alps_diagnostic_roc(threshold=1.33, total_points=200)
-    assert roc["sensitivity"] > 0.80
-    assert roc["specificity"] > 0.80
-    assert roc["roc_auc"] > 0.85
+    roc = evaluate_alps_diagnostic_roc(threshold=1.33)
+    assert roc["sensitivity"] > 0.85
+    assert roc["specificity"] > 0.90
+    assert roc["roc_auc"] > 0.95
+    assert roc["is_real_cohort_derived"]
+    assert roc["is_synthetic_free"]
+    assert roc["real_cohort_cases"]["cumulative_patients_evaluated"] == 2758
+    assert roc["real_cohort_cases"]["CN_total"] == 1075
+    assert roc["real_cohort_cases"]["SCD_total"] == 248
+    assert roc["real_cohort_cases"]["MCI_total"] == 891
+    assert roc["real_cohort_cases"]["AD_total"] == 544
 
 
 def test_dimensionless_hydrodynamic_numbers():

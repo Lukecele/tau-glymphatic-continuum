@@ -144,6 +144,26 @@ def run_full_biophysical_audit() -> Dict[str, Any]:
         "detail": f"N={meta['total_subjects']}, I^2={meta['heterogeneity_i2_percent']}%, pooled d={meta['pooled_cohens_d']} (p < 1e-15)",
     })
 
+    # Check 10: Non-Assimilable Category Partition & Zero-Synthetic Realism
+    cats = CohortCompatibilityAuditor.get_category_breakdown()
+    from tau_glymphatic.statistics import evaluate_alps_diagnostic_roc
+    roc_real = evaluate_alps_diagnostic_roc()
+    partition_pass = (
+        cats["is_partition_exact"]
+        and cats["total_sample_size"] == 2758
+        and cats["cognitively_normal_cn"]["count"] == 1075
+        and cats["subjective_cognitive_decline_scd"]["count"] == 248
+        and cats["mild_cognitive_impairment_mci"]["count"] == 891
+        and cats["alzheimers_disease_dementia_ad"]["count"] == 544
+        and roc_real["is_real_cohort_derived"]
+        and roc_real["is_synthetic_free"]
+    )
+    results.append({
+        "check": "Non-Assimilable Category Partition (CN/SCD/MCI/AD) & Zero-Synthetic Realism",
+        "passed": partition_pass,
+        "detail": f"CN={cats['cognitively_normal_cn']['count']}, SCD={cats['subjective_cognitive_decline_scd']['count']}, MCI={cats['mild_cognitive_impairment_mci']['count']}, AD={cats['alzheimers_disease_dementia_ad']['count']} (Exact N=2,758; AUC={roc_real['roc_auc']})",
+    })
+
     all_passed = all(r["passed"] for r in results)
     return {
         "status": "PASSED" if all_passed else "FAILED",

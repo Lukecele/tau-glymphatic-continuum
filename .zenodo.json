@@ -3,7 +3,7 @@
   "description": "A multiscale reaction-diffusion and perivascular transport computational engine modeling pathological Tau propagation in Alzheimer's disease. Couples Starling-Darcy glymphatic convective clearance, clinical DTI-ALPS diffusion indices, and microglial neuroinflammatory strain modulated by APOE epsilon4 and TREM2, validated across an audited multi-cohort benchmark of N = 2,758 subjects.",
   "upload_type": "software",
   "access_right": "open",
-  "license": "cc-by-4.0",
+  "license": "MIT",
   "creators": [
     {
       "name": "Celebrano, Luca",

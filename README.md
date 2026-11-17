@@ -4,7 +4,8 @@
 [![Preprint](https://img.shields.io/badge/Preprint-CERN%20Zenodo%20%7C%20Research%20Square-blue.svg)](https://doi.org/10.5281/zenodo.24261518)
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Lukecele/tau-glymphatic-continuum/blob/main/demo_interactive_ngtd.ipynb)
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/)
-[![License: CC BY 4.0](https://img.shields.io/badge/License-CC_BY_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![bio.tools](https://img.shields.io/badge/bio.tools-tau--glymphatic--continuum-blue.svg)](https://bio.tools/tau-glymphatic-continuum)
 [![Biophysical Audit](https://img.shields.io/badge/Biophysical%20Audit-9%2F9%20Passed-brightgreen.svg)]()
 [![Multi-Cohort Compatibility](https://img.shields.io/badge/Multi--Cohort%20Audit-N%3D2%2C758%20(100%25%203T)-blue.svg)]()
 [![Full Manuscript PDF](https://img.shields.io/badge/Manuscript-PDF%20Compiled-red.svg)](01_MANUSCRIPT_TAU_GLYMPHATIC_FULL.pdf)
@@ -93,7 +94,9 @@ tau-calc --alps 1.08 --apoe-e4 2 --nlrp3
 
 ## 5. Citation & License
 
-This project is licensed under the **Creative Commons Attribution 4.0 International License (CC-BY-4.0)**.
+* **Software Engine & Code:** Licensed under the OSI-approved **[MIT License](LICENSE)**.
+* **Scholarly Manuscript & Scientific Figures:** Licensed under **[Creative Commons Attribution 4.0 International (CC-BY-4.0)](docs/MANUSCRIPT_CC_BY_4.0.md)**.
+* **ELIXIR bio.tools Registry:** [`biotools:tau-glymphatic-continuum`](https://bio.tools/tau-glymphatic-continuum) (metadata: [`metadata/biotools.json`](metadata/biotools.json)).
 
 To cite this work in research or computational pipelines, refer to `CITATION.cff`:
 
@@ -104,7 +107,7 @@ To cite this work in research or computational pipelines, refer to `CITATION.cff
   year = {2026},
   doi = {10.5281/zenodo.24261518},
   url = {https://doi.org/10.5281/zenodo.24261518},
-  license = {CC-BY-4.0}
+  license = {MIT}
 }
 ```
 

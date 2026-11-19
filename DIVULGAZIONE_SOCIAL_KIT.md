@@ -1,7 +1,7 @@
 # 📣 Scientific Outreach & Social Media Kit: Neuro-Glymphatic Tau Dynamics (NGTD)
 
-**Author**: Luca Celebrano, MD Candidate (Università degli Studi di Napoli Federico II / TIGEM)  
-**Permanent Archive DOI**: [10.5281/zenodo.24261518](https://doi.org/10.5281/zenodo.24261518)  
+**Author**: Luca Celebrano, MD Candidate (Independent Researcher)  
+**Permanent Archive DOI**: [](https://doi.org/)  
 **Interactive Colab Demo**: [Open in Colab](https://colab.research.google.com/github/Lukecele/tau-glymphatic-continuum/blob/main/demo_interactive_ngtd.ipynb)  
 **GitHub Repository**: [Lukecele/tau-glymphatic-continuum](https://github.com/Lukecele/tau-glymphatic-continuum)
 
@@ -16,7 +16,7 @@
 
 For decades, computational models have treated Tau progression as a passive "prion-like" diffusion across brain connectomes. But this creates a profound physical paradox: if Tau monomers and oligomers simply diffuse, they should invade the entire neocortex within months, not decades.
 
-I am thrilled to announce our new study permanently archived at CERN Zenodo (DOI: 10.5281/zenodo.24261518):
+I am thrilled to announce our new study permanently archived at CERN Zenodo (DOI: ):
 
 🔬 "Neuro-Glymphatic Tau Dynamics: An In Silico Multiscale Reaction–Diffusion and Perivascular Transport Model of Pathological Tau Spreading in Alzheimer's Disease"
 
@@ -56,7 +56,7 @@ https://github.com/Lukecele/tau-glymphatic-continuum/releases/tag/v1.1.0
 > 
 > Why does Tau pathology stay latent for 30 years, then suddenly explode into neocortex?
 > 
-> Excited to share our preprint certified on CERN Zenodo (DOI: 10.5281/zenodo.24261518) 🧵👇
+> Excited to share our preprint certified on CERN Zenodo (DOI: ) 🧵👇
 > 
 > [Attach: Figure1_pvs_hydrodynamics.png]
 

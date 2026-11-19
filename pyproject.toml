@@ -8,7 +8,7 @@ version = "1.1.2"
 description = "Multiscale Biophysical Reaction-Diffusion and Perivascular Glymphatic Clearance Engine for Tauopathies"
 readme = "README.md"
 authors = [
-  { name = "Luca Celebrano", email = "l.celebrano@studenti.unina.it" }
+  { name = "Luca Celebrano", email = "luca.celebrano1@gmail.com" }
 ]
 license = { text = "MIT" }
 requires-python = ">=3.9"

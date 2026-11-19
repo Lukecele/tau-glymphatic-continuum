@@ -28,7 +28,7 @@ def print_banner():
 ================================================================================
   🧠 NGTD v1.1.1 — Neuro-Glymphatic Tau Dynamics Calculator
   A Multiscale Biophysical Reaction-Diffusion & Perivascular Clearance Engine
-  Author: Luca Celebrano, MD Candidate | University of Naples Federico II
+  Author: Luca Celebrano | Independent Researcher, Naples, Italy
 ================================================================================
 """
     print(banner.strip())

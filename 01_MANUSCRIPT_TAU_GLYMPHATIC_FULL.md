@@ -1,7 +1,7 @@
 # Neuro-Glymphatic Tau Dynamics: An In Silico Multiscale Reaction–Diffusion and Perivascular Transport Model of Pathological Tau Propagation in Alzheimer's Disease
 
 **Author**: Luca Celebrano $^{1}$  
-$^{1}$ Department of Clinical Medicine and Surgery, School of Medicine and Surgery, Università degli Studi di Napoli Federico II, Via Sergio Pansini 5, 80131 Naples, Italy  
+$^{1}$ Independent Researcher, Naples, Italy  
 **Correspondence**: `l.celebrano@studenti.unina.it` | **ORCID**: [0009-0007-0931-3555](https://orcid.org/0009-0007-0931-3555)  
 **Permanent Repository & Code Provenance**: [https://github.com/Lukecele/tau-glymphatic-continuum](https://github.com/Lukecele/tau-glymphatic-continuum)  
 **Certified Archive DOI**: [10.5281/zenodo.24261518](https://doi.org/10.5281/zenodo.24261518)  
@@ -291,7 +291,7 @@ To maintain absolute scientific rigor and avoid unhedged translational claims, s
 
 ## Declarations
 
-* **Funding**: Independent Medical Student Research Program in Mathematical Oncology and Biophysics, Università degli Studi di Napoli Federico II.
+* **Funding**: Independent Medical Student Research Program in Mathematical Oncology and Biophysics, Independent Researcher.
 * **Competing Interests**: The author declares no competing financial or commercial conflicts of interest.
 * **Ethics Approval**: All human data utilized in this study were obtained from publicly accessible, de-identified multi-center repositories (ADNI, A4, WHUH) with existing Institutional Review Board (IRB) approvals and participant informed consent.
 * **Data Availability**: The audited clinical cohort benchmarks, compatibility matrices, and statistical distributions are fully reproducible and documented within the open-source repository.

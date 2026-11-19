@@ -119,5 +119,5 @@ To cite this work in research or computational pipelines, refer to `CITATION.cff
 ```
 
 **Author**: Luca Celebrano, MD Candidate  
-Department of Clinical Medicine and Surgery, School of Medicine and Surgery, Università degli Studi di Napoli Federico II, Naples, Italy  
+Independent Researcher, Naples, Italy  
 ORCID: [0009-0007-0931-3555](https://orcid.org/0009-0007-0931-3555)

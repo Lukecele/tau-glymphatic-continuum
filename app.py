@@ -4,7 +4,7 @@ Neuro-Glymphatic Tau Dynamics (NGTD) — Interactive Bedside Clinical Simulator.
 A multiscale biophysical reaction-diffusion and perivascular transport dashboard
 for translational neurologists, biophysicists, and neuroscientists.
 
-Author: Luca Celebrano, MD Candidate (Università degli Studi di Napoli Federico II / TIGEM)
+Author: Luca Celebrano, MD Candidate (Independent Researcher)
 Certified DOI: 10.5281/zenodo.24261518
 Preprint Archive: CERN Zenodo / Research Square
 """

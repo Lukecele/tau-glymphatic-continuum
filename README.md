@@ -1,15 +1,12 @@
 # Neuro-Glymphatic Tau Dynamics (NGTD)
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24261518.svg)](https://doi.org/10.5281/zenodo.24261518)
-[![Research Square](https://img.shields.io/badge/Research%20Square-rs--11766049-blue.svg)](https://www.researchsquare.com/)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24297489.svg)](https://doi.org/10.5281/zenodo.24297489)
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Lukecele/tau-glymphatic-continuum/blob/main/demo_interactive_ngtd.ipynb)
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![bio.tools](https://img.shields.io/badge/bio.tools-tau--glymphatic--continuum-blue.svg)](https://bio.tools/tau-glymphatic-continuum)
 [![Biophysical Audit](https://img.shields.io/badge/Biophysical%20Audit-10%2F10%20Passed-brightgreen.svg)]()
 [![Multi-Cohort Compatibility](https://img.shields.io/badge/Multi--Cohort%20Audit-N%3D2%2C758%20(100%25%203T)-blue.svg)]()
-[![Full Manuscript PDF](https://img.shields.io/badge/Manuscript-PDF%20Compiled-red.svg)](01_MANUSCRIPT_TAU_GLYMPHATIC_FULL.pdf)
-[![Supplementary Information](https://img.shields.io/badge/Supplementary-PDF%20Compiled-purple.svg)](02_SUPPLEMENTARY_INFORMATION.pdf)
 
 A multiscale reaction-diffusion and perivascular transport engine modeling pathological Tau propagation in Alzheimer's disease. Couples Starling-Darcy glymphatic clearance, clinical DTI-ALPS diffusion indices, and microglial neuroinflammatory strain modulated by *APOE* $\varepsilon4$ and *TREM2*.
 
@@ -112,8 +109,8 @@ To cite this work in research or computational pipelines, refer to `CITATION.cff
   author = {Celebrano, Luca},
   title = {{Neuro-Glymphatic Tau Dynamics (NGTD): A Multiscale Reaction-Diffusion and Perivascular Transport Model of Tau Spreading in Alzheimer's Disease}},
   year = {2026},
-  doi = {10.5281/zenodo.24261518},
-  url = {https://doi.org/10.5281/zenodo.24261518},
+  doi = {10.5281/zenodo.24297489},
+  url = {https://doi.org/10.5281/zenodo.24297489},
   license = {MIT}
 }
 ```

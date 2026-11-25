@@ -126,7 +126,7 @@ To cite this work in research or computational pipelines, refer to `CITATION.cff
   author = {Celebrano, Luca},
   title = {{Neuro-Glymphatic Tau Dynamics (NGTD): A Multiscale Reaction-Diffusion and Perivascular Transport Model of Tau Spreading in Alzheimer's Disease}},
   year = {2026},
-  doi = {10.5281/zenodo.24297489},
+  doi = {10.5281/zenodo.24393484},
   url = {https://doi.org/10.5281/zenodo.24393484},
   license = {MIT}
 }

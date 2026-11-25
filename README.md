@@ -1,6 +1,8 @@
 # Neuro-Glymphatic Tau Dynamics (NGTD)
 
 [![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.24393484-blue)](https://doi.org/10.5281/zenodo.24393484)
+[![Install with Bioconda](https://img.shields.io/badge/install%20with-bioconda-brightgreen.svg?style=flat)](https://anaconda.org/bioconda/tau-glymphatic-continuum)
+[![nf-core module](https://img.shields.io/badge/nf--core-tauglymphatic%2Fcalc-239660)](https://github.com/nf-core/modules/pull/13861)
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Lukecele/tau-glymphatic-continuum/blob/main/demo_interactive_ngtd.ipynb)
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -9,6 +11,21 @@
 [![Multi-Cohort Compatibility](https://img.shields.io/badge/Multi--Cohort%20Audit-N%3D2%2C758%20(100%25%203T)-blue.svg)]()
 
 A multiscale reaction-diffusion and perivascular transport engine modeling pathological Tau propagation in Alzheimer's disease. Couples Starling-Darcy glymphatic clearance, clinical DTI-ALPS diffusion indices, and microglial neuroinflammatory strain modulated by *APOE* $\varepsilon4$ and *TREM2*.
+
+---
+
+> [!TIP]
+> ⭐ **If you use `tau-glymphatic-continuum` or the official `nf-core` module (`tauglymphatic/calc`) in your research, please consider giving this repository a Star on GitHub!**
+
+## ⚡ 10-Second Install & CLI Quickstart
+
+```bash
+# Install from Bioconda
+conda install -c bioconda tau-glymphatic-continuum
+
+# Run per-sample DTI-ALPS perivascular clearance & tipping-point simulation
+tau-calc --alps 1.15 --apoe-e4 2 --trem2-r47h --nlrp3 --json
+```
 
 ---
 
